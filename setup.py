@@ -14,17 +14,16 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
-requirements = [
-    # TODO: put package requirements here
-]
+requirements = []
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'sphinx_rtd_theme',
+    'mock'
 ]
 
 setup(
     name='es_fluent',
-    version='0.1.0',
+    version='0.0.1',
     description="Fluent API for generating elastic queries.",
     long_description=readme + '\n\n' + history,
     author="Jacob Straszynski",
@@ -37,13 +36,12 @@ setup(
                  'es_fluent'},
     include_package_data=True,
     install_requires=requirements,
-    license="ISCL",
+    license="Apache 2",
     zip_safe=False,
     keywords='es_fluent',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: ISC License (ISCL)',
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.7',

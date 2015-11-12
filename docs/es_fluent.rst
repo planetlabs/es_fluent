@@ -1,0 +1,21 @@
+ESFluent API
+============
+
+The key components of the API are :class:`~es_fluent.filters.Filter`
+and :class:`~es_fluent.builder.QueryBuilder`.
+
+Each ``Filter`` inherirts from :class:`~es_fluent.filters.Filter` and
+generally provides a ``to_query`` method that prepares it for
+json-serialization.
+
+The :class:`~es_fluent.builder.QueryBuilder` manages the top-level body
+of the query sent to elasticsearch. Besides composing filters, it allows
+configuration of sorting, size, fields and whether the source document is
+included in results.
+
+.. toctree::
+
+    es_fluent.fields
+    es_fluent.filters
+    es_fluent.script_fields
+    es_fluent.builder

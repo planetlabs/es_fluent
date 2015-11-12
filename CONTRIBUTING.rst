@@ -36,9 +36,17 @@ is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-ES Fluent could always use more documentation, whether as part of the
-official ES Fluent docs, in docstrings, or even on the web in blog posts,
+ESFluent could always use more documentation, whether as part of the
+official ESFluent docs, in docstrings, or even on the web in blog posts,
 articles, and such.
+
+You can run a live-updating documentation server via::
+
+    $ make servedocs
+
+To generate docs immediately and to open them in your browser::
+
+    $ make docs
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
@@ -76,9 +84,7 @@ Ready to contribute? Here's how to set up `es_fluent` for local development.
 
 5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
 
-    $ flake8 es_fluent tests
-    $ python setup.py test
-    $ tox
+    $ make test
 
    To get flake8 and tox, just pip install them into your virtualenv.
 
@@ -100,7 +106,7 @@ Before you submit a pull request, check that it meets these guidelines:
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
 3. The pull request should work for Python 2.7. Check
-   https://travis-ci.org/planetlabs/es_fluent/pull_requests
+   https://magnum.travis-ci.com/planetlabs/es_fluent/pull_request
    and make sure that the tests pass for all supported Python versions.
 
 Tips

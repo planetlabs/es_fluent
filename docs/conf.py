@@ -40,7 +40,11 @@ import es_fluent
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.doctest',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,7 +59,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'ES Fluent'
+project = u'ESFluent'
 copyright = u'2015, Jacob Straszynski'
 
 # The version info for the project you're documenting, acts as replacement
@@ -111,7 +115,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a
 # theme further.  For a list of options available for each theme, see the
@@ -209,7 +213,7 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'es_fluent.tex',
-     u'ES Fluent Documentation',
+     u'ESFluent Documentation',
      u'Jacob Straszynski', 'manual'),
 ]
 
@@ -240,7 +244,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'es_fluent',
-     u'ES Fluent Documentation',
+     u'ESFluent Documentation',
      [u'Jacob Straszynski'], 1)
 ]
 
@@ -255,7 +259,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'es_fluent',
-     u'ES Fluent Documentation',
+     u'ESFluent Documentation',
      u'Jacob Straszynski',
      'es_fluent',
      'One line description of project.',

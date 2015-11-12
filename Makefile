@@ -61,15 +61,29 @@ coverage:
 	$(BROWSER) htmlcov/index.html
 
 docs:
+	$(MAKE) -C docs clean
+	$(MAKE) -C docs html
+
+servedocs: docs
+	watchmedo shell-command -p '*.rst;*.py' -c '$(MAKE) -C docs html' -R -D .
+
+scaffolddocs:
 	rm -f docs/es_fluent.rst
 	rm -f docs/modules.rst
 	sphinx-apidoc -o docs/ es_fluent
-	$(MAKE) -C docs clean
-	$(MAKE) -C docs html
+
+showdocs:
 	$(BROWSER) docs/_build/html/index.html
 
-servedocs: docs
-	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
+publishdocs: docs
+	mkdir -p /tmp/esfluent_docs
+	cp -r docs/_build/html /tmp/esfluent_docs
+	git checkout gh-pages
+	cp -r /tmp/esfluent_docs/html/* .
+	git add .
+	git commit -m 'Updating docs.'
+	git push
+	git checkout master
 
 release: clean
 	python setup.py sdist upload
