@@ -1,0 +1,22 @@
+es_fluent.filters package
+=========================
+
+Submodules
+----------
+
+es_fluent.filters.geometry module
+---------------------------------
+
+.. automodule:: es_fluent.filters.geometry
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: es_fluent.filters
+    :members:
+    :undoc-members:
+    :show-inheritance:

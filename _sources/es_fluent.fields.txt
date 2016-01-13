@@ -1,0 +1,10 @@
+es_fluent.fields package
+========================
+
+Module contents
+---------------
+
+.. automodule:: es_fluent.fields
+    :members:
+    :undoc-members:
+    :show-inheritance:

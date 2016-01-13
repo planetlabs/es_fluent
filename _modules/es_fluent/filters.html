@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>es_fluent.filters &mdash; ES Fluent 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="ES Fluent 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ES Fluent
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ES Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html#id1">0.1.0 (2015-01-11)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">ES Fluent</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>es_fluent.filters</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for es_fluent.filters</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="c"># A dictionary of filter classes, keyed by their name attributes.</span>
+<span class="n">FILTER_REGISTRY</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">_now</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Mockable proxy to datetime.datetime.now()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="FilterRegistry"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.FilterRegistry">[docs]</a><span class="k">class</span> <span class="nc">FilterRegistry</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Metaclass used to automatically register new filter classes in our filter</span>
+<span class="sd">    registry. Enables shorthand filter notation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="n">newclass</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FilterRegistry</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span>
+            <span class="n">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
+        <span class="n">register_filter</span><span class="p">(</span><span class="n">newclass</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">newclass</span>
+
+</div>
+<div class="viewcode-block" id="register_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.register_filter">[docs]</a><span class="k">def</span> <span class="nf">register_filter</span><span class="p">(</span><span class="n">filter_cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds the `filter_cls` to our registry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filter_cls</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">elif</span> <span class="n">filter_cls</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">FILTER_REGISTRY</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s">&quot;Filter class already registered: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filter_cls</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">FILTER_REGISTRY</span><span class="p">[</span><span class="n">filter_cls</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">filter_cls</span>
+
+</div>
+<div class="viewcode-block" id="build_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.build_filter">[docs]</a><span class="k">def</span> <span class="nf">build_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overloaded filter construction. If filter_or_string is a string</span>
+<span class="sd">    we look up it&#39;s corresponding class in the filter registry and return it.</span>
+<span class="sd">    Otherwise, assume filter_or_string is an instance of a filter.</span>
+
+<span class="sd">    :return: Filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+        <span class="c"># Names that start with `~` indicate a negated filter.</span>
+        <span class="k">if</span> <span class="n">filter_or_string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;~&#39;</span><span class="p">):</span>
+            <span class="n">filter_name</span> <span class="o">=</span> <span class="n">filter_or_string</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="k">return</span> <span class="o">~</span><span class="n">FILTER_REGISTRY</span><span class="p">[</span><span class="n">filter_name</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filter_name</span> <span class="o">=</span> <span class="n">filter_or_string</span>
+            <span class="k">return</span> <span class="n">FILTER_REGISTRY</span><span class="p">[</span><span class="n">filter_name</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">filter_or_string</span>
+
+</div>
+<div class="viewcode-block" id="Filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Filter">[docs]</a><span class="k">class</span> <span class="nc">Filter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base filter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># The shorthand name of the filter.</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c"># Auto-register any Filter subclass with our registry.</span>
+    <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">FilterRegistry</span>
+
+    <span class="k">def</span> <span class="nf">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">not_filter</span> <span class="o">=</span> <span class="n">Not</span><span class="p">()</span>
+        <span class="n">not_filter</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">not_filter</span>
+
+</div>
+<div class="viewcode-block" id="Generic"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic">[docs]</a><span class="k">class</span> <span class="nc">Generic</span><span class="p">(</span><span class="n">Filter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains a generic list of filters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Generic.is_empty"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+</div>
+<div class="viewcode-block" id="Generic.add_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.add_filter">[docs]</a>    <span class="k">def</span> <span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Appends a filter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">build_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="Generic.and_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.and_filter">[docs]</a>    <span class="k">def</span> <span class="nf">and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a list of `and` clauses, automatically generating the `and` filter</span>
+<span class="sd">        if it does not already exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">and_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_filter</span><span class="p">(</span><span class="n">And</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">and_filter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">and_filter</span> <span class="o">=</span> <span class="n">And</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">and_filter</span><span class="p">)</span>
+
+        <span class="n">and_filter</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">build_filter</span><span class="p">(</span>
+            <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">and_filter</span>
+</div>
+<div class="viewcode-block" id="Generic.or_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.or_filter">[docs]</a>    <span class="k">def</span> <span class="nf">or_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a list of `or` clauses, automatically generating the `or` filter</span>
+<span class="sd">        if it does not already exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">or_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_filter</span><span class="p">(</span><span class="n">Or</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">or_filter</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">or_filter</span> <span class="o">=</span> <span class="n">Or</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">or_filter</span><span class="p">)</span>
+
+        <span class="n">or_filter</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">build_filter</span><span class="p">(</span>
+            <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">or_filter</span>
+</div>
+<div class="viewcode-block" id="Generic.find_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.find_filter">[docs]</a>    <span class="k">def</span> <span class="nf">find_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find or create a filter instance of the provided filter_cls. If it is</span>
+<span class="sd">        found, use remaining arguments to augment the filter otherwise create</span>
+<span class="sd">        a new instance of the desired type and add it to the query_builder</span>
+<span class="sd">        accordingly.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_instance</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">filter_instance</span>
+
+        <span class="k">return</span> <span class="bp">None</span>
+
+</div></div>
+<div class="viewcode-block" id="Dict"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Dict">[docs]</a><span class="k">class</span> <span class="nc">Dict</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains a generic dictionary of filters e.g. in a top level ES Query</span>
+<span class="sd">    we may have:</span>
+<span class="sd">        { &quot;filtered&quot;: {&quot;filter&quot;: {&quot;and&quot;: {...}, &quot;or&quot;: {...}, &quot;exists&quot;: {...} }</span>
+<span class="sd">    The Dict filter may represent the dictionary inside of &quot;filtered.filter&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Dict.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Dict.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterates over all filters and converts them to an Elastic HTTP API</span>
+<span class="sd">        suitable query.</span>
+
+<span class="sd">        Note: each Filter is free to set it&#39;s own filter dictionary. ES Fluent</span>
+<span class="sd">        does not attempt to guard against filters that may clobber one another.</span>
+<span class="sd">        If you wish to ensure that filters are isolated, nested them inside</span>
+<span class="sd">        of a boolean filter such as And or Or.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+            <span class="n">filter_query</span> <span class="o">=</span> <span class="n">filter_instance</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+            <span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">filter_query</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">query</span>
+
+</div></div>
+<div class="viewcode-block" id="And"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.And">[docs]</a><span class="k">class</span> <span class="nc">And</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A multi-clause filter that ands&#39;s all sub-filters added to it.</span>
+
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-and-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;and&#39;</span>
+
+<div class="viewcode-block" id="And.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.And.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">clauses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+            <span class="n">clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_instance</span><span class="o">.</span><span class="n">to_query</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;and&quot;</span><span class="p">:</span> <span class="n">clauses</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Or"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Or">[docs]</a><span class="k">class</span> <span class="nc">Or</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A multi-clause filter that or&#39;s all sub-filters added to it.</span>
+
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-or-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;or&#39;</span>
+
+<div class="viewcode-block" id="Or.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Or.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">clauses</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+            <span class="n">clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_instance</span><span class="o">.</span><span class="n">to_query</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;or&quot;</span><span class="p">:</span> <span class="n">clauses</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Not"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Not">[docs]</a><span class="k">class</span> <span class="nc">Not</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A filter that inverts it&#39;s clauses.</span>
+
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-not-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;not&#39;</span>
+
+<div class="viewcode-block" id="Not.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Not.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Not</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;not&quot;</span><span class="p">:</span> <span class="n">query</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Terminal"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terminal">[docs]</a><span class="k">class</span> <span class="nc">Terminal</span><span class="p">(</span><span class="n">Filter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A filter that cannot contain nested filters. Merge behavior is to clobber</span>
+<span class="sd">    existing clauses rather than appending additional clauses.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Terminal.add_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terminal.add_filter">[docs]</a>    <span class="k">def</span> <span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_instance</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Terminal filters do not support sub-filters&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Terminal.find_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terminal.find_filter">[docs]</a>    <span class="k">def</span> <span class="nf">find_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Terminal filters do not support sub-filters&quot;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="Custom"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Custom">[docs]</a><span class="k">class</span> <span class="nc">Custom</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allows for an entirely custom dictionary to be used and passed verbatim</span>
+<span class="sd">    when `to_query` is invoked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;custom&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>
+
+<div class="viewcode-block" id="Custom.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Custom.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span>
+
+</div></div>
+<div class="viewcode-block" id="Exists"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Exists">[docs]</a><span class="k">class</span> <span class="nc">Exists</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-exists-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;exists&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Exists.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Exists.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;exists&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&quot;field&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Range"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Range">[docs]</a><span class="k">class</span> <span class="nc">Range</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-range-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;range&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gte</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lte</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gte</span> <span class="o">=</span> <span class="n">gte</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lte</span> <span class="o">=</span> <span class="n">lte</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lt</span> <span class="o">=</span> <span class="n">lt</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gt</span> <span class="o">=</span> <span class="n">gt</span>
+
+<div class="viewcode-block" id="Range.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Range.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">criteria</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">comparator</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;lte&#39;</span><span class="p">,</span> <span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;gt&#39;</span><span class="p">,</span> <span class="s">&#39;gte&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comparator</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">criteria</span><span class="p">[</span><span class="n">comparator</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comparator</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">criteria</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Age"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Age">[docs]</a><span class="k">class</span> <span class="nc">Age</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Similar to a range filter. Operates on times. When querified, we convert</span>
+<span class="sd">    the age in seconds into a datetime relative to the current</span>
+<span class="sd">    `datetime.datetime.now()`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;age&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">gte</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lte</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">lt</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="c"># Yes, this flipping of gt/lt is deliberate. Saying something is</span>
+        <span class="c"># less than 3600 seconds old is equivalent to saying it&#39;s timestamp</span>
+        <span class="c"># is greater that `now` - 3600.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lte</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">gte</span><span class="p">)</span> <span class="k">if</span> <span class="n">gte</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gte</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lte</span><span class="p">)</span> <span class="k">if</span> <span class="n">lte</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lt</span><span class="p">)</span> <span class="k">if</span> <span class="n">lt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">gt</span><span class="p">)</span> <span class="k">if</span> <span class="n">gt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="Age.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Age.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">criteria</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">_now</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">comparator</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&#39;lte&#39;</span><span class="p">,</span> <span class="s">&#39;lt&#39;</span><span class="p">,</span> <span class="s">&#39;gt&#39;</span><span class="p">,</span> <span class="s">&#39;gte&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comparator</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">seconds</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comparator</span><span class="p">)</span>
+                <span class="n">age</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="n">now</span> <span class="o">-</span> <span class="n">age</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+                <span class="n">criteria</span><span class="p">[</span><span class="n">comparator</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;range&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">criteria</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Term"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Term">[docs]</a><span class="k">class</span> <span class="nc">Term</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;term&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+<div class="viewcode-block" id="Term.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Term.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;term&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Missing"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Missing">[docs]</a><span class="k">class</span> <span class="nc">Missing</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-missing-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;missing&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+<div class="viewcode-block" id="Missing.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Missing.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;missing&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&quot;field&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Terms"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terms">[docs]</a><span class="k">class</span> <span class="nc">Terms</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;terms&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span>
+
+<div class="viewcode-block" id="Terms.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terms.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;terms&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="RegExp"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.RegExp">[docs]</a><span class="k">class</span> <span class="nc">RegExp</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-regexp-filter.html</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;regexp&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">expression</span><span class="p">):</span>
+        <span class="c"># Immediately try to compile the expression to check it&#39;s validity.</span>
+        <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span>
+
+<div class="viewcode-block" id="RegExp.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.RegExp.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">&quot;regexp&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">expression</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+</div></div>
+<div class="viewcode-block" id="Script"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Script">[docs]</a><span class="k">class</span> <span class="nc">Script</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents script criteria.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;script&#39;</span>
+
+<div class="viewcode-block" id="Script.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Script.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
+            <span class="n">filter_query</span> <span class="o">=</span> <span class="n">filter_instance</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+            <span class="n">query</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">filter_query</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">query</span>
+
+</div></div>
+<div class="viewcode-block" id="ScriptID"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.ScriptID">[docs]</a><span class="k">class</span> <span class="nc">ScriptID</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a pre-indexed script filter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;script_id&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">script_id</span><span class="p">,</span> <span class="n">script_params</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s">&#39;groovy&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script_id</span> <span class="o">=</span> <span class="n">script_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script_params</span> <span class="o">=</span> <span class="n">script_params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lang</span> <span class="o">=</span> <span class="n">lang</span>
+
+<div class="viewcode-block" id="ScriptID.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.ScriptID.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&#39;lang&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lang</span><span class="p">,</span>
+                <span class="s">&#39;script_id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_id</span><span class="p">,</span>
+                <span class="s">&#39;params&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_params</span>
+            <span class="p">}</span>
+        <span class="p">}</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jacob Straszynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

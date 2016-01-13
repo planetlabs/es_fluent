@@ -1,0 +1,358 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>es_fluent.builder &mdash; ES Fluent 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="ES Fluent 0.1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ES Fluent
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ES Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html#id1">0.1.0 (2015-01-11)</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">ES Fluent</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>es_fluent.builder</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for es_fluent.builder</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">es_fluent.filters</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">es_fluent.script_fields</span> <span class="kn">import</span> <span class="n">ScriptFields</span>
+<span class="kn">from</span> <span class="nn">es_fluent.fields</span> <span class="kn">import</span> <span class="n">Fields</span>
+
+
+<div class="viewcode-block" id="QueryBuilder"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder">[docs]</a><span class="k">class</span> <span class="nc">QueryBuilder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span> <span class="o">=</span> <span class="n">Dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script_fields</span> <span class="o">=</span> <span class="n">ScriptFields</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">Fields</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets current size limit of the ES response, which limits the number of</span>
+<span class="sd">        documents returned. By default this is unset and the number of</span>
+<span class="sd">        documents returned is up to ES.</span>
+
+<span class="sd">        :return: The current size limit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+
+    <span class="nd">@size.setter</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the size of the ES response.</span>
+
+<span class="sd">        :param size: The number of documents to limit the response to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">size</span>
+
+<div class="viewcode-block" id="QueryBuilder.and_filter"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.and_filter">[docs]</a>    <span class="k">def</span> <span class="nf">and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convenience method to delegate to the root_filter to generate an `and`</span>
+<span class="sd">        clause.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.or_filter"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.or_filter">[docs]</a>    <span class="k">def</span> <span class="nf">or_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convenience method to delegate to the root_filter to generate an `or`</span>
+<span class="sd">        clause.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.add_filter"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.add_filter">[docs]</a>    <span class="k">def</span> <span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a filter to the query builder&#39;s filters.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.add_field"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.add_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a field to the query builder. The default behavior is</span>
+<span class="sd">        to return all fields. Explicitly adding a single field will</span>
+<span class="sd">        result in only that source field being returned.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">field_instance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.add_script_field"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.add_script_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_script_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add a script field to the query. The `field_instance` should be</span>
+<span class="sd">        an instance of `es_fluent.script_fields`.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script_fields</span><span class="o">.</span><span class="n">add_field</span><span class="p">(</span><span class="n">field_instance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.find_filter"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.find_filter">[docs]</a>    <span class="k">def</span> <span class="nf">find_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds an existing filter using a filter class `filter_cls`. If not</span>
+<span class="sd">        found, None is returned.</span>
+
+<span class="sd">        This method is useful in cases where one wants to modify and extend</span>
+<span class="sd">        and existing clause, a common example might be an `And` filter. The</span>
+<span class="sd">        method only looks in the query&#39;s top-level filter.</span>
+
+<span class="sd">        :param: filter_cls The the filter class to find.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">find_filter</span><span class="p">(</span><span class="n">filter_cls</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.to_query"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">result</span><span class="p">[</span><span class="s">&#39;filter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_filter</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_fields</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">result</span><span class="p">[</span><span class="s">&#39;script_fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">script_fields</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">to_query</span><span class="p">():</span>
+            <span class="n">result</span><span class="p">[</span><span class="s">&#39;fields&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+
+        <span class="c"># We don&#39;t bother with reprensenting sort as an object.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sorts</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">[</span><span class="s">&#39;sort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="s">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_size</span>
+
+        <span class="n">result</span><span class="p">[</span><span class="s">&#39;_source&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.disable_source"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.disable_source">[docs]</a>    <span class="k">def</span> <span class="nf">disable_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Don&#39;t include source.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.enable_source"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.enable_source">[docs]</a>    <span class="k">def</span> <span class="nf">enable_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Include the source document.</span>
+
+<span class="sd">        :return: QueryBuilder</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.sort"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s">&quot;asc&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds sort criteria to this QueryBuilder.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Field should be a string&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s">&quot;asc&quot;</span><span class="p">,</span> <span class="s">&quot;desc&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;Sort direction should be `asc` or `desc`&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="n">field</span><span class="p">:</span> <span class="n">direction</span><span class="p">})</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.remove_sort"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.remove_sort">[docs]</a>    <span class="k">def</span> <span class="nf">remove_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears sorting criteria affecting `field_name`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">field</span><span class="o">=</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span> <span class="k">if</span> <span class="n">field</span>
+                      <span class="ow">is</span> <span class="ow">not</span> <span class="n">field_name</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="QueryBuilder.sort_reset"><a class="viewcode-back" href="../../es_fluent.html#es_fluent.builder.QueryBuilder.sort_reset">[docs]</a>    <span class="k">def</span> <span class="nf">sort_reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets sorting criteria.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sorts</span> <span class="o">=</span> <span class="p">[]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jacob Straszynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
