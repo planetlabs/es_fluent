@@ -1,31 +1,14 @@
-es_fluent package
-=================
+ESFluent API
+============
 
-Subpackages
------------
+The key components of the API are :class:`~es_fluent.filters.Filter`
+and :class:`~es_fluent.builder.QueryBuilder`.
 
-.. toctree::
+Each ``Filter`` inherirts from :class:`~es_fluent.filters.Filter` and
+generally provides a ``to_query`` method that prepares it for
+json-serialization.
 
-    es_fluent.fields
-    es_fluent.filters
-    es_fluent.script_fields
-
-Submodules
-----------
-
-es_fluent.builder module
-------------------------
-
-.. automodule:: es_fluent.builder
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: es_fluent
-    :members:
-    :undoc-members:
-    :show-inheritance:
+The :class:`~es_fluent.builder.QueryBuilder` manages the top-level body
+of the query sent to elasticsearch. Besides composing filters, it allows
+configuration of sorting, size, fields and whether the source document is
+included in results.

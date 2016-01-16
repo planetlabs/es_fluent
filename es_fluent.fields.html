@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>es_fluent.fields package &mdash; ES Fluent 0.1.0 documentation</title>
+  <title>Fields &mdash; ESFluent 0.1.0 documentation</title>
   
 
   
@@ -30,10 +30,7 @@
   
 
   
-    <link rel="top" title="ES Fluent 0.1.0 documentation" href="index.html"/>
-        <link rel="up" title="es_fluent package" href="es_fluent.html"/>
-        <link rel="next" title="es_fluent.filters package" href="es_fluent.filters.html"/>
-        <link rel="prev" title="es_fluent package" href="es_fluent.html"/> 
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -51,7 +48,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> ES Fluent
+            <a href="index.html" class="icon icon-home"> ESFluent
           
 
           
@@ -82,28 +79,13 @@
           
             
             
-                <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">ES Fluent</a></li>
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">ESFluent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">API</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="es_fluent.html">es_fluent package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="es_fluent.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="current reference internal" href="">es_fluent.fields package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.filters.html">es_fluent.filters package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.script_fields.html">es_fluent.script_fields package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.html#module-es_fluent.builder">es_fluent.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.html#module-es_fluent">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ESFluent API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#id1">0.1.0 (2015-01-11)</a></li>
 </ul>
 
             
@@ -117,7 +99,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ES Fluent</a>
+        <a href="index.html">ESFluent</a>
       </nav>
 
 
@@ -134,11 +116,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="modules.html">es_fluent</a> &raquo;</li>
-      
-          <li><a href="es_fluent.html">es_fluent package</a> &raquo;</li>
-      
-    <li>es_fluent.fields package</li>
+    <li>Fields</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -152,56 +130,49 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="es-fluent-fields-package">
-<h1>es_fluent.fields package<a class="headerlink" href="#es-fluent-fields-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-es_fluent.fields">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-es_fluent.fields" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-es_fluent.fields">
+<span id="fields"></span><h1>Fields<a class="headerlink" href="#module-es_fluent.fields" title="Permalink to this headline">¶</a></h1>
+<p>Utilized by the <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> to optionally
+restrict the fields returned by an Elastic query.</p>
 <dl class="class">
 <dt id="es_fluent.fields.Field">
 <em class="property">class </em><code class="descclassname">es_fluent.fields.</code><code class="descname">Field</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/fields.html#Field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.fields.Field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Manages a basic field. These occur inside of an es fields array.</p>
+<p>Manages a basic field. These occur inside of an elasticsearch fields array.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="es_fluent.fields.Fields">
 <em class="property">class </em><code class="descclassname">es_fluent.fields.</code><code class="descname">Fields</code><a class="reference internal" href="_modules/es_fluent/fields.html#Fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.fields.Fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Represents a collection of requested fields.</p>
+<p>Represents a collection of fields to be requested at query time.</p>
 <dl class="method">
 <dt id="es_fluent.fields.Fields.add_field">
 <code class="descname">add_field</code><span class="sig-paren">(</span><em>field_instance_or_string</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/fields.html#Fields.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.fields.Fields.add_field" title="Permalink to this definition">¶</a></dt>
-<dd><p>Appends a field, can be a Field or string.</p>
+<dd><p>Appends a field, can be a <a class="reference internal" href="#es_fluent.fields.Field" title="es_fluent.fields.Field"><code class="xref py py-class docutils literal"><span class="pre">Field</span></code></a> or string.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="es_fluent.fields.Fields.is_empty">
 <code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/fields.html#Fields.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.fields.Fields.is_empty" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns <code class="docutils literal"><span class="pre">False</span></code> if no fields have been added, <code class="docutils literal"><span class="pre">True</span></code> otherwise.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="es_fluent.fields.Fields.to_query">
 <code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/fields.html#Fields.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.fields.Fields.to_query" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Serializes this into a json-serializable dictionary suitable for use
+with the elasticsearch api.</p>
+</dd></dl>
 
 </dd></dl>
 
-</div>
 </div>
 
 
            </div>
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="es_fluent.filters.html" class="btn btn-neutral float-right" title="es_fluent.filters package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="es_fluent.html" class="btn btn-neutral" title="es_fluent package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

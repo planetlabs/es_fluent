@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>es_fluent.filters &mdash; ES Fluent 0.1.0 documentation</title>
+  <title>es_fluent.filters &mdash; ESFluent 0.1.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="ES Fluent 0.1.0 documentation" href="../../index.html"/>
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -49,7 +49,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> ES Fluent
+            <a href="../../index.html" class="icon icon-home"> ESFluent
           
 
           
@@ -81,13 +81,12 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ES Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ESFluent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ESFluent API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../history.html#id1">0.1.0 (2015-01-11)</a></li>
 </ul>
 
             
@@ -101,7 +100,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">ES Fluent</a>
+        <a href="../../index.html">ESFluent</a>
       </nav>
 
 
@@ -142,7 +141,7 @@
 
 <span class="k">def</span> <span class="nf">_now</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Mockable proxy to datetime.datetime.now()</span>
+<span class="sd">    Mockable proxy to ``datetime.datetime.now()``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
@@ -151,6 +150,11 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Metaclass used to automatically register new filter classes in our filter</span>
 <span class="sd">    registry. Enables shorthand filter notation.</span>
+
+<span class="sd">        &gt;&gt;&gt; from es_fluent.builder import QueryBuilder</span>
+<span class="sd">        &gt;&gt;&gt; query_builder = QueryBuilder()</span>
+<span class="sd">        &gt;&gt;&gt; query_builder.add_filter(&#39;missing&#39;, &#39;boop&#39;).to_query()[&#39;filter&#39;]</span>
+<span class="sd">        {&#39;missing&#39;: {&#39;field&#39;: &#39;field_name&#39;}}</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
         <span class="n">newclass</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">FilterRegistry</span><span class="p">,</span> <span class="n">cls</span><span class="p">)</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span>
@@ -161,7 +165,7 @@
 </div>
 <div class="viewcode-block" id="register_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.register_filter">[docs]</a><span class="k">def</span> <span class="nf">register_filter</span><span class="p">(</span><span class="n">filter_cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Adds the `filter_cls` to our registry.</span>
+<span class="sd">    Adds the ``filter_cls`` to our registry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">filter_cls</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">return</span>
@@ -174,11 +178,11 @@
 </div>
 <div class="viewcode-block" id="build_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.build_filter">[docs]</a><span class="k">def</span> <span class="nf">build_filter</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overloaded filter construction. If filter_or_string is a string</span>
+<span class="sd">    Overloaded filter construction. If ``filter_or_string`` is a string</span>
 <span class="sd">    we look up it&#39;s corresponding class in the filter registry and return it.</span>
-<span class="sd">    Otherwise, assume filter_or_string is an instance of a filter.</span>
+<span class="sd">    Otherwise, assume ``filter_or_string`` is an instance of a filter.</span>
 
-<span class="sd">    :return: Filter</span>
+<span class="sd">    :return: :class:`~es_fluent.filters.Filter`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_or_string</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
         <span class="c"># Names that start with `~` indicate a negated filter.</span>
@@ -197,26 +201,40 @@
 <span class="sd">    The base filter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># The shorthand name of the filter.</span>
+    <span class="c">#: The shorthand name of the filter.</span>
     <span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
 
-    <span class="c"># Auto-register any Filter subclass with our registry.</span>
+    <span class="c">#: Auto-register any Filter subclass with our registry.</span>
     <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">FilterRegistry</span>
 
     <span class="k">def</span> <span class="nf">__invert__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns this filter wrapped in a :class:`es_fluent.filters.Not` filter.</span>
+<span class="sd">        :</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">not_filter</span> <span class="o">=</span> <span class="n">Not</span><span class="p">()</span>
         <span class="n">not_filter</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">not_filter</span>
 
-</div>
+<div class="viewcode-block" id="Filter.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Filter.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Serializes this ``Filter`` and any descendants into a json-serializable</span>
+<span class="sd">        dictionary suitable for use with the elasticsearch api.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+</div></div>
 <div class="viewcode-block" id="Generic"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic">[docs]</a><span class="k">class</span> <span class="nc">Generic</span><span class="p">(</span><span class="n">Filter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Contains a generic list of filters.</span>
+<span class="sd">    Contains a generic list of filters. Serialized as a dictionary.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Generic.is_empty"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: ``True`` if this filter has nested clauses ``False``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 </div>
 <div class="viewcode-block" id="Generic.add_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.add_filter">[docs]</a>    <span class="k">def</span> <span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -229,8 +247,9 @@
 </div>
 <div class="viewcode-block" id="Generic.and_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.and_filter">[docs]</a>    <span class="k">def</span> <span class="nf">and_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a list of `and` clauses, automatically generating the `and` filter</span>
-<span class="sd">        if it does not already exist.</span>
+<span class="sd">        Adds a list of :class:`~es_fluent.filters.And` clauses, automatically</span>
+<span class="sd">        generating :class:`~es_fluent.filters.And` filter if it does not</span>
+<span class="sd">        exist.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">and_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_filter</span><span class="p">(</span><span class="n">And</span><span class="p">)</span>
 
@@ -245,8 +264,9 @@
 </div>
 <div class="viewcode-block" id="Generic.or_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.or_filter">[docs]</a>    <span class="k">def</span> <span class="nf">or_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_or_string</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a list of `or` clauses, automatically generating the `or` filter</span>
-<span class="sd">        if it does not already exist.</span>
+<span class="sd">        Adds a list of :class:`~es_fluent.filters.Or` clauses, automatically</span>
+<span class="sd">        generating the an :class:`~es_fluent.filters.Or` filter if it does not</span>
+<span class="sd">        exist.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">or_filter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_filter</span><span class="p">(</span><span class="n">Or</span><span class="p">)</span>
 
@@ -262,10 +282,10 @@
 </div>
 <div class="viewcode-block" id="Generic.find_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Generic.find_filter">[docs]</a>    <span class="k">def</span> <span class="nf">find_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find or create a filter instance of the provided filter_cls. If it is</span>
-<span class="sd">        found, use remaining arguments to augment the filter otherwise create</span>
-<span class="sd">        a new instance of the desired type and add it to the query_builder</span>
-<span class="sd">        accordingly.</span>
+<span class="sd">        Find or create a filter instance of the provided ``filter_cls``. If it</span>
+<span class="sd">        is found, use remaining arguments to augment the filter otherwise</span>
+<span class="sd">        create a new instance of the desired type and add it to the</span>
+<span class="sd">        current :class:`~es_fluent.builder.QueryBuilder` accordingly.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_instance</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
@@ -277,8 +297,10 @@
 <div class="viewcode-block" id="Dict"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Dict">[docs]</a><span class="k">class</span> <span class="nc">Dict</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains a generic dictionary of filters e.g. in a top level ES Query</span>
-<span class="sd">    we may have:</span>
+<span class="sd">    we may have::</span>
+
 <span class="sd">        { &quot;filtered&quot;: {&quot;filter&quot;: {&quot;and&quot;: {...}, &quot;or&quot;: {...}, &quot;exists&quot;: {...} }</span>
+
 <span class="sd">    The Dict filter may represent the dictionary inside of &quot;filtered.filter&quot;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Dict.to_query"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Dict.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -286,11 +308,12 @@
 <span class="sd">        Iterates over all filters and converts them to an Elastic HTTP API</span>
 <span class="sd">        suitable query.</span>
 
-<span class="sd">        Note: each Filter is free to set it&#39;s own filter dictionary. ES Fluent</span>
-<span class="sd">        does not attempt to guard against filters that may clobber one another.</span>
-<span class="sd">        If you wish to ensure that filters are isolated, nested them inside</span>
-<span class="sd">        of a boolean filter such as And or Or.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Note: each :class:`~es_fluent.filters.Filter` is free to set it&#39;s own</span>
+<span class="sd">        filter dictionary. ESFluent does not attempt to guard against filters</span>
+<span class="sd">        that may clobber one another.  If you wish to ensure that filters are</span>
+<span class="sd">        isolated, nest them inside of a boolean filter such as</span>
+<span class="sd">        :class:`~es_fluent.filters.And` or :class:`~es_fluent.filters.Or`.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
         <span class="n">query</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">filter_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">:</span>
             <span class="n">filter_query</span> <span class="o">=</span> <span class="n">filter_instance</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
@@ -303,7 +326,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A multi-clause filter that ands&#39;s all sub-filters added to it.</span>
 
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-and-filter.html</span>
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-and-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;and&#39;</span>
 
@@ -318,9 +341,9 @@
 </div></div>
 <div class="viewcode-block" id="Or"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Or">[docs]</a><span class="k">class</span> <span class="nc">Or</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A multi-clause filter that or&#39;s all sub-filters added to it.</span>
+<span class="sd">    A multi-clause filter that ``ors`` all sub-filters added to it.</span>
 
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-or-filter.html</span>
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-or-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;or&#39;</span>
 
@@ -337,7 +360,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A filter that inverts it&#39;s clauses.</span>
 
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-not-filter.html</span>
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-not-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;not&#39;</span>
 
@@ -354,9 +377,17 @@
 <span class="sd">    existing clauses rather than appending additional clauses.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Terminal.add_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terminal.add_filter">[docs]</a>    <span class="k">def</span> <span class="nf">add_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_instance</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        As a :class:`~es_fluent.filters.Terminal` filter, adding nested filters</span>
+<span class="sd">        is not allowed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Terminal filters do not support sub-filters&quot;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Terminal.find_filter"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terminal.find_filter">[docs]</a>    <span class="k">def</span> <span class="nf">find_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filter_cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        As a :class:`~es_fluent.filters.Terminal` filter, adding nested filters</span>
+<span class="sd">        is not allowed and therefore, finding sub-filters is not supported.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s">&quot;Terminal filters do not support sub-filters&quot;</span><span class="p">)</span>
 
 </div></div>
@@ -376,7 +407,9 @@
 </div></div>
 <div class="viewcode-block" id="Exists"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Exists">[docs]</a><span class="k">class</span> <span class="nc">Exists</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-exists-filter.html</span>
+<span class="sd">    Checks whether a field exists in the source document.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-exists-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;exists&#39;</span>
 
@@ -393,7 +426,10 @@
 </div></div>
 <div class="viewcode-block" id="Range"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Range">[docs]</a><span class="k">class</span> <span class="nc">Range</span><span class="p">(</span><span class="n">Dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-range-filter.html</span>
+<span class="sd">    A Filter for ranges of values, supporting ``lt``, ``lte``, ``gt``, ``gte``</span>
+<span class="sd">    comparisons.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-range-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;range&#39;</span>
 
@@ -421,7 +457,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Similar to a range filter. Operates on times. When querified, we convert</span>
 <span class="sd">    the age in seconds into a datetime relative to the current</span>
-<span class="sd">    `datetime.datetime.now()`.</span>
+<span class="sd">    ``datetime.datetime.now()``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;age&#39;</span>
 
@@ -453,7 +489,7 @@
 </div></div>
 <div class="viewcode-block" id="Term"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Term">[docs]</a><span class="k">class</span> <span class="nc">Term</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html</span>
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;term&#39;</span>
 
@@ -471,7 +507,9 @@
 </div></div>
 <div class="viewcode-block" id="Missing"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Missing">[docs]</a><span class="k">class</span> <span class="nc">Missing</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-missing-filter.html</span>
+<span class="sd">    Filters documents that to do not contain a given field.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;missing&#39;</span>
 
@@ -488,7 +526,9 @@
 </div></div>
 <div class="viewcode-block" id="Terms"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Terms">[docs]</a><span class="k">class</span> <span class="nc">Terms</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html</span>
+<span class="sd">    Matches documents that contain multiple exact values.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;terms&#39;</span>
 
@@ -506,7 +546,9 @@
 </div></div>
 <div class="viewcode-block" id="RegExp"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.RegExp">[docs]</a><span class="k">class</span> <span class="nc">RegExp</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-regexp-filter.html</span>
+<span class="sd">    Matches documents whose given field matches a provided regular expression.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;regexp&#39;</span>
 
@@ -527,6 +569,8 @@
 <div class="viewcode-block" id="Script"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.Script">[docs]</a><span class="k">class</span> <span class="nc">Script</span><span class="p">(</span><span class="n">Generic</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents script criteria.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-script-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;script&#39;</span>
 
@@ -543,6 +587,8 @@
 <div class="viewcode-block" id="ScriptID"><a class="viewcode-back" href="../../es_fluent.filters.html#es_fluent.filters.ScriptID">[docs]</a><span class="k">class</span> <span class="nc">ScriptID</span><span class="p">(</span><span class="n">Terminal</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a pre-indexed script filter.</span>
+
+<span class="sd">    `Elastic docs &lt;https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-script-filter.html&gt;`_.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;script_id&#39;</span>
 

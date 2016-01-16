@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>es_fluent &mdash; ES Fluent 0.1.0 documentation</title>
+  <title>ESFluent API &mdash; ESFluent 0.1.0 documentation</title>
   
 
   
@@ -30,8 +30,8 @@
   
 
   
-    <link rel="top" title="ES Fluent 0.1.0 documentation" href="index.html"/>
-        <link rel="next" title="es_fluent package" href="es_fluent.html"/>
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Contributing" href="contributing.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> ES Fluent
+            <a href="index.html" class="icon icon-home"> ESFluent
           
 
           
@@ -82,16 +82,12 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="readme.html">ES Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">ESFluent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="es_fluent.html">es_fluent package</a></li>
-</ul>
-</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">ESFluent API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#id1">0.1.0 (2015-01-11)</a></li>
 </ul>
 
             
@@ -105,7 +101,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ES Fluent</a>
+        <a href="index.html">ESFluent</a>
       </nav>
 
 
@@ -122,7 +118,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>es_fluent</li>
+    <li>ESFluent API</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -136,35 +132,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="es-fluent">
-<h1>es_fluent<a class="headerlink" href="#es-fluent" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="es_fluent.html">es_fluent package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="es_fluent.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.fields.html">es_fluent.fields package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.fields.html#module-es_fluent.fields">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.filters.html">es_fluent.filters package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.filters.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.filters.html#module-es_fluent.filters.geometry">es_fluent.filters.geometry module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.filters.html#module-es_fluent.filters">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="es_fluent.script_fields.html">es_fluent.script_fields package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="es_fluent.script_fields.html#module-es_fluent.script_fields">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="es_fluent.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="es_fluent.html#module-es_fluent.builder">es_fluent.builder module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="es_fluent.html#module-es_fluent">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+  <div class="section" id="esfluent-api">
+<h1>ESFluent API<a class="headerlink" href="#esfluent-api" title="Permalink to this headline">¶</a></h1>
+<p>The key components of the API are <a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a>
+and <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a>.</p>
+<p>Each <code class="docutils literal"><span class="pre">Filter</span></code> inherirts from <a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a> and
+generally provides a <code class="docutils literal"><span class="pre">to_query</span></code> method that prepares it for
+json-serialization.</p>
+<p>The <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> manages the top-level body
+of the query sent to elasticsearch. Besides composing filters, it allows
+configuration of sorting, size, fields and whether the source document is
+included in results.</p>
 </div>
 
 
@@ -174,7 +152,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="es_fluent.html" class="btn btn-neutral float-right" title="es_fluent package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

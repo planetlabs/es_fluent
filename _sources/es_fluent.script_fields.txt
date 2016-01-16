@@ -1,8 +1,5 @@
-es_fluent.script_fields package
-===============================
-
-Module contents
----------------
+Script Fields
+=============
 
 .. automodule:: es_fluent.script_fields
     :members:

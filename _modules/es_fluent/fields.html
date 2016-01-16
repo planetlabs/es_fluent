@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>es_fluent.fields &mdash; ES Fluent 0.1.0 documentation</title>
+  <title>es_fluent.fields &mdash; ESFluent 0.1.0 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="ES Fluent 0.1.0 documentation" href="../../index.html"/>
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -49,7 +49,7 @@
           
 
           
-            <a href="../../index.html" class="icon icon-home"> ES Fluent
+            <a href="../../index.html" class="icon icon-home"> ESFluent
           
 
           
@@ -81,13 +81,12 @@
             
             
                 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ES Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../readme.html">ESFluent</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">ESFluent API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../history.html#id1">0.1.0 (2015-01-11)</a></li>
 </ul>
 
             
@@ -101,7 +100,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">ES Fluent</a>
+        <a href="../../index.html">ESFluent</a>
       </nav>
 
 
@@ -133,16 +132,22 @@
            <div itemprop="articleBody">
             
   <h1>Source code for es_fluent.fields</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utilized by the :class:`~es_fluent.builder.QueryBuilder` to optionally</span>
+<span class="sd">restrict the fields returned by an Elastic query.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
 <div class="viewcode-block" id="Fields"><a class="viewcode-back" href="../../es_fluent.fields.html#es_fluent.fields.Fields">[docs]</a><span class="k">class</span> <span class="nc">Fields</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a collection of requested fields.</span>
+<span class="sd">    Represents a collection of fields to be requested at query time.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Fields.add_field"><a class="viewcode-back" href="../../es_fluent.fields.html#es_fluent.fields.Fields.add_field">[docs]</a>    <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field_instance_or_string</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Appends a field, can be a Field or string.</span>
+<span class="sd">        Appends a field, can be a :class:`~es_fluent.fields.Field` or string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">field_instance_or_string</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span>
             <span class="n">field_instance</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">field_instance_or_string</span><span class="p">)</span>
@@ -156,15 +161,22 @@
         <span class="k">return</span> <span class="bp">self</span>
 </div>
 <div class="viewcode-block" id="Fields.to_query"><a class="viewcode-back" href="../../es_fluent.fields.html#es_fluent.fields.Fields.to_query">[docs]</a>    <span class="k">def</span> <span class="nf">to_query</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Serializes this into a json-serializable dictionary suitable for use</span>
+<span class="sd">        with the elasticsearch api.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">field</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="Fields.is_empty"><a class="viewcode-back" href="../../es_fluent.fields.html#es_fluent.fields.Fields.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns ``False`` if no fields have been added, ``True`` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
 </div></div>
 <div class="viewcode-block" id="Field"><a class="viewcode-back" href="../../es_fluent.fields.html#es_fluent.fields.Field">[docs]</a><span class="k">class</span> <span class="nc">Field</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Manages a basic field. These occur inside of an es fields array.</span>
+<span class="sd">    Manages a basic field. These occur inside of an elasticsearch fields array.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span></div>
