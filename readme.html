@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ES Fluent &mdash; ES Fluent 0.1.0 documentation</title>
+  <title>ESFluent &mdash; ESFluent 0.1.0 documentation</title>
   
 
   
@@ -30,9 +30,9 @@
   
 
   
-    <link rel="top" title="ES Fluent 0.1.0 documentation" href="index.html"/>
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/>
         <link rel="next" title="Installation" href="installation.html"/>
-        <link rel="prev" title="Welcome to ES Fluent’s documentation!" href="index.html"/> 
+        <link rel="prev" title="Welcome to ESFluent’s documentation!" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> ES Fluent
+            <a href="index.html" class="icon icon-home"> ESFluent
           
 
           
@@ -82,7 +82,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">ES Fluent</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">ESFluent</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#supported-servers">Supported Servers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#concepts-and-walkthrough">Concepts and Walkthrough</a><ul>
@@ -95,11 +95,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ESFluent API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 <li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
-<li class="toctree-l1"><a class="reference internal" href="history.html#id1">0.1.0 (2015-01-11)</a></li>
 </ul>
 
             
@@ -113,7 +112,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">ES Fluent</a>
+        <a href="index.html">ESFluent</a>
       </nav>
 
 
@@ -130,7 +129,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>ES Fluent</li>
+    <li>ESFluent</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -144,11 +143,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="es-fluent">
-<h1>ES Fluent<a class="headerlink" href="#es-fluent" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="esfluent">
+<h1>ESFluent<a class="headerlink" href="#esfluent" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://magnum.travis-ci.com/planetlabs/es_fluent"><img alt="https://magnum.travis-ci.com/planetlabs/es_fluent.svg?token=5Z7UpoQrPprZcGWkD3zh&amp;branch=master" src="https://magnum.travis-ci.com/planetlabs/es_fluent.svg?token=5Z7UpoQrPprZcGWkD3zh&amp;branch=master" /></a>
 <a class="reference external image-reference" href="https://pypi.python.org/pypi/es_fluent"><img src="https://img.shields.io/pypi/v/es_fluent.svg" /></a>
-<p>A user-friendly module for managing and composing ElasticSearch queries.</p>
+<p>A user-friendly module for managing and composing elasticsearch queries.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;planet&#39;</span><span class="p">,</span> <span class="s">&#39;earth&#39;</span><span class="p">)</span>
@@ -159,26 +158,27 @@
 </div>
 <div class="section" id="supported-servers">
 <h2>Supported Servers<a class="headerlink" href="#supported-servers" title="Permalink to this headline">¶</a></h2>
-<p>ES Fluent only supports the 1.x stream of ElasticSearch.</p>
+<p>ESFluent only supports the 1.x stream of elasticsearch.</p>
 </div>
 <div class="section" id="features">
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>A Fluent API for generating and composing queries.</li>
-<li>Support for many ElasticSearch filter types.</li>
+<li>Support for many elasticsearch filter types.</li>
 <li>Pluggable filter definitions, currently we simply model existing
 elasticsearch filters.</li>
 </ul>
 </div>
 <div class="section" id="concepts-and-walkthrough">
 <h2>Concepts and Walkthrough<a class="headerlink" href="#concepts-and-walkthrough" title="Permalink to this headline">¶</a></h2>
-<p>We&#8217;ll walk through some examples of getting started with ES Fluent. If you&#8217;re
+<p>We&#8217;ll walk through some examples of getting started with ESFluent. If you&#8217;re
 the type that likes to shoot first and ask questions later, the tests will
 exercise all of the API concepts.</p>
 <div class="section" id="the-querybuilder">
 <h3>The QueryBuilder<a class="headerlink" href="#the-querybuilder" title="Permalink to this headline">¶</a></h3>
-<p>The QueryBuilder encapsulates the entire query. It features a <cite>to_query</cite>
-method which generates a JSON payload suitable for POST&#8217;ing to elasticsearch.</p>
+<p>The QueryBuilder encapsulates the entire query. It features
+a <a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.Filter.to_query" title="es_fluent.filters.Filter.to_query"><code class="xref py py-func docutils literal"><span class="pre">to_query()</span></code></a> method which generates a JSON
+payload suitable for POST&#8217;ing to elasticsearch.</p>
 <p>For the most part, you&#8217;ll be adding chains of filters. The QueryBuilder offers
 additional support for:</p>
 <ul class="simple">
@@ -222,7 +222,7 @@ is used as it&#8217;s shorthand identifier.</p>
 <h3>Negation<a class="headerlink" href="#negation" title="Permalink to this headline">¶</a></h3>
 <p>Taking a page out of various Python ORMs, we support the <cite>~</cite> operator to
 negate filters. This effectively wraps the filter in a <cite>not</cite> filter in
-ElasticSearch:</p>
+elasticsearch:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="kn">from</span> <span class="nn">es_fluent.filters</span> <span class="kn">import</span> <span class="n">Term</span>
 
@@ -260,7 +260,7 @@ for creating nested and / or clauses:</p>
 <span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Note that with ElasticSearch, you cannot have both an <cite>And</cite> and <cite>Or</cite> clause at
+<p>Note that with elasticsearch, you cannot have both an <cite>And</cite> and <cite>Or</cite> clause at
 the root level:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
@@ -293,7 +293,7 @@ the root level:</p>
         <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to ES Fluent’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to ESFluent’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
