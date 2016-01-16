@@ -183,12 +183,13 @@ payload suitable for POST&#8217;ing to elasticsearch.</p>
 additional support for:</p>
 <ul class="simple">
 <li>Enabling or disabling the _source document. By default this is not returned,
-but many use cases demand it. See <cite>QueryBuilder.enable_source</cite> and
-<cite>QueryBuilder.disable_source</cite>.</li>
-<li>Limiting returned fields. See <cite>QueryBuilder.add_field</cite>.</li>
-<li>Configuring sorting. See <cite>QueryBuilder.sort</cite>.</li>
+but many use cases demand it. See
+<a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder.enable_source" title="es_fluent.builder.QueryBuilder.enable_source"><code class="xref py py-func docutils literal"><span class="pre">enable_source()</span></code></a> and
+<a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder.disable_source" title="es_fluent.builder.QueryBuilder.disable_source"><code class="xref py py-func docutils literal"><span class="pre">disable_source()</span></code></a>.</li>
+<li>Limiting returned fields. See <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder.add_field" title="es_fluent.builder.QueryBuilder.add_field"><code class="xref py py-func docutils literal"><span class="pre">add_field()</span></code></a>.</li>
+<li>Configuring sorting. See <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder.sort" title="es_fluent.builder.QueryBuilder.sort"><code class="xref py py-func docutils literal"><span class="pre">sort()</span></code></a>.</li>
 </ul>
-<p>To create a <cite>QueryBuilder</cite> instance:</p>
+<p>To create a <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> instance:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
 </pre></div>
