@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESFluent &mdash; ESFluent 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/>
+        <link rel="next" title="Installation" href="installation.html"/>
+        <link rel="prev" title="Welcome to ESFluent’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ESFluent
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">ESFluent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#supported-servers">Supported Servers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#concepts-and-walkthrough">Concepts and Walkthrough</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-querybuilder">The QueryBuilder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#filter-basics">Filter Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#negation">Negation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#boolean-filters">Boolean Filters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">ESFluent API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ESFluent</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>ESFluent</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/readme.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esfluent">
+<h1>ESFluent<a class="headerlink" href="#esfluent" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://magnum.travis-ci.com/planetlabs/es_fluent"><img alt="https://magnum.travis-ci.com/planetlabs/es_fluent.svg?token=5Z7UpoQrPprZcGWkD3zh&amp;branch=master" src="https://magnum.travis-ci.com/planetlabs/es_fluent.svg?token=5Z7UpoQrPprZcGWkD3zh&amp;branch=master" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/es_fluent"><img src="https://img.shields.io/pypi/v/es_fluent.svg" /></a>
+<p>A user-friendly module for managing and composing elasticsearch queries.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;planet&#39;</span><span class="p">,</span> <span class="s">&#39;earth&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">enable_source</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">to_query</span><span class="p">()</span>
+<span class="go">{&#39;filter&#39;: {&#39;and&#39;: [{&#39;term&#39;: {&#39;planet&#39;: &#39;earth&#39;}}]}, &#39;fields&#39;: [], &#39;_source&#39;: True}</span>
+</pre></div>
+</div>
+<div class="section" id="supported-servers">
+<h2>Supported Servers<a class="headerlink" href="#supported-servers" title="Permalink to this headline">¶</a></h2>
+<p>ESFluent only supports the 1.x stream of elasticsearch.</p>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A Fluent API for generating and composing queries.</li>
+<li>Support for many elasticsearch filter types.</li>
+<li>Pluggable filter definitions, currently we simply model existing
+elasticsearch filters.</li>
+</ul>
+</div>
+<div class="section" id="concepts-and-walkthrough">
+<h2>Concepts and Walkthrough<a class="headerlink" href="#concepts-and-walkthrough" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll walk through some examples of getting started with ESFluent. If you&#8217;re
+the type that likes to shoot first and ask questions later, the tests will
+exercise all of the API concepts.</p>
+<div class="section" id="the-querybuilder">
+<h3>The QueryBuilder<a class="headerlink" href="#the-querybuilder" title="Permalink to this headline">¶</a></h3>
+<p>The QueryBuilder encapsulates the entire query. It features
+a <a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.Filter.to_query" title="es_fluent.filters.Filter.to_query"><code class="xref py py-func docutils literal"><span class="pre">to_query()</span></code></a> method which generates a JSON
+payload suitable for POST&#8217;ing to elasticsearch.</p>
+<p>For the most part, you&#8217;ll be adding chains of filters. The QueryBuilder offers
+additional support for:</p>
+<ul class="simple">
+<li>Enabling or disabling the _source document. By default this is not returned,
+but many use cases demand it. See <cite>QueryBuilder.enable_source</cite> and
+<cite>QueryBuilder.disable_source</cite>.</li>
+<li>Limiting returned fields. See <cite>QueryBuilder.add_field</cite>.</li>
+<li>Configuring sorting. See <cite>QueryBuilder.sort</cite>.</li>
+</ul>
+<p>To create a <cite>QueryBuilder</cite> instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="filter-basics">
+<h3>Filter Basics<a class="headerlink" href="#filter-basics" title="Permalink to this headline">¶</a></h3>
+<p>Having created a QueryBuilder instance, you&#8217;re likely going to want
+to add filter criteria. There are two ways of doing this: importing the filter
+class directly and creating an instance of a filter by hand then agumenting
+your QueryBuilder instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="kn">from</span> <span class="nn">es_fluent.filters</span> <span class="kn">import</span> <span class="n">Term</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The alternative approach is to use a shorthand notation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="c"># Args and kwargs are forwarded to appropriate constructors.</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;range&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="n">lte</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each Filter class has a registered name - see the <cite>name</cite> class attribute - that
+is used as it&#8217;s shorthand identifier.</p>
+</div>
+<div class="section" id="negation">
+<h3>Negation<a class="headerlink" href="#negation" title="Permalink to this headline">¶</a></h3>
+<p>Taking a page out of various Python ORMs, we support the <cite>~</cite> operator to
+negate filters. This effectively wraps the filter in a <cite>not</cite> filter in
+elasticsearch:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="kn">from</span> <span class="nn">es_fluent.filters</span> <span class="kn">import</span> <span class="n">Term</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="o">~</span><span class="n">Term</span><span class="p">(</span><span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This is equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="kn">from</span> <span class="nn">es_fluent.filters</span> <span class="kn">import</span> <span class="n">Not</span><span class="p">,</span> <span class="n">Term</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">Not</span><span class="p">(</span><span class="n">Term</span><span class="p">(</span><span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>And also equivalent to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;~term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="boolean-filters">
+<h3>Boolean Filters<a class="headerlink" href="#boolean-filters" title="Permalink to this headline">¶</a></h3>
+<p>Boolean filters contain a list of sub-filters. The API provides conveniences
+for creating nested and / or clauses:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that with elasticsearch, you cannot have both an <cite>And</cite> and <cite>Or</cite> clause at
+the root level:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>But this can be achieved using:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+
+<span class="n">and_clauses</span> <span class="o">=</span> <span class="n">And</span><span class="p">()</span>
+<span class="n">and_clauses</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">))</span>
+<span class="n">and_clauses</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">))</span>
+
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">and_clauses</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to ESFluent’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jacob Straszynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

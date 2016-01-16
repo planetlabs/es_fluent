@@ -1,0 +1,385 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Builder &mdash; ESFluent 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/>
+        <link rel="up" title="ESFluent API" href="modules.html"/>
+        <link rel="next" title="Contributing" href="contributing.html"/>
+        <link rel="prev" title="Script Fields" href="es_fluent.script_fields.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ESFluent
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">ESFluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ESFluent API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.fields.html">Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.filters.html">Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.script_fields.html">Script Fields</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Builder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ESFluent</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">ESFluent API</a> &raquo;</li>
+      
+    <li>Builder</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/es_fluent.builder.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-es_fluent.builder">
+<span id="builder"></span><h1>Builder<a class="headerlink" href="#module-es_fluent.builder" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="es_fluent.builder.QueryBuilder">
+<em class="property">class </em><code class="descclassname">es_fluent.builder.</code><code class="descname">QueryBuilder</code><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.add_field">
+<code class="descname">add_field</code><span class="sig-paren">(</span><em>field_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.add_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a field to the query builder. The default behavior is
+to return all fields. Explicitly adding a single field will
+result in only that source field being returned.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.add_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a filter to the query builder&#8217;s filters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.add_script_field">
+<code class="descname">add_script_field</code><span class="sig-paren">(</span><em>field_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.add_script_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.add_script_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a script field to the query. The <cite>field_instance</cite> should be
+an instance of <cite>es_fluent.script_fields</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.and_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to delegate to the root_filter to generate an
+<a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clause.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.disable_source">
+<code class="descname">disable_source</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.disable_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.disable_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Don&#8217;t include <code class="docutils literal"><span class="pre">_source</span></code> document in results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.enable_source">
+<code class="descname">enable_source</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.enable_source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.enable_source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include <code class="docutils literal"><span class="pre">_source</span></code> document in results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.find_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds an existing filter using a filter class <cite>filter_cls</cite>. If not
+found, None is returned.</p>
+<p>This method is useful in cases where one wants to modify and extend
+and existing clause, a common example might be an
+<a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter. The method only looks in the
+query&#8217;s top-level filter and does not recurse.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body"><code class="docutils literal"><span class="pre">filter_cls</span></code>
+The the <a class="reference internal" href="es_fluent.filters.html#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a> class
+to find.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.or_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience method to delegate to the root_filter to generate an <cite>or</cite>
+clause.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.remove_sort">
+<code class="descname">remove_sort</code><span class="sig-paren">(</span><em>field_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.remove_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.remove_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears sorting criteria affecting <code class="docutils literal"><span class="pre">field_name</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.builder.QueryBuilder.size">
+<code class="descname">size</code><a class="headerlink" href="#es_fluent.builder.QueryBuilder.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets current size limit of the ES response, which limits the number of
+documents returned. By default this is unset and the number of
+documents returned is up to ES.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The current size limit.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.sort">
+<code class="descname">sort</code><span class="sig-paren">(</span><em>field</em>, <em>direction='asc'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds sort criteria.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.sort_reset">
+<code class="descname">sort_reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.sort_reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.sort_reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets sorting criteria.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.builder.QueryBuilder.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/builder.html#QueryBuilder.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.builder.QueryBuilder.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="contributing.html" class="btn btn-neutral float-right" title="Contributing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="es_fluent.script_fields.html" class="btn btn-neutral" title="Script Fields" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jacob Straszynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

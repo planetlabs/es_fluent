@@ -1,0 +1,1180 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Filters &mdash; ESFluent 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="ESFluent 0.1.0 documentation" href="index.html"/>
+        <link rel="up" title="ESFluent API" href="modules.html"/>
+        <link rel="next" title="Script Fields" href="es_fluent.script_fields.html"/>
+        <link rel="prev" title="Fields" href="es_fluent.fields.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> ESFluent
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="readme.html">ESFluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">ESFluent API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.fields.html">Fields</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Filters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-es_fluent.filters">Basic Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-es_fluent.filters.geometry">Geometry Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#utilities">Utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.script_fields.html">Script Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="es_fluent.builder.html">Builder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">History</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">ESFluent</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">ESFluent API</a> &raquo;</li>
+      
+    <li>Filters</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/es_fluent.filters.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="filters">
+<h1>Filters<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h1>
+<p>Filters typically have corresponding elasticsearch filters. ESFluent helps
+intelligently compose them and provides a common interface, via
+<a class="reference internal" href="#es_fluent.filters.Filter.to_query" title="es_fluent.filters.Filter.to_query"><code class="xref py py-func docutils literal"><span class="pre">to_query()</span></code></a> whose responsibility is to
+generate the corresponding elasticsearch filter dictionary.</p>
+<p>A Filter can <code class="xref py py-class docutils literal"><span class="pre">Geometry</span></code> clean up data and
+also generate novel queries.</p>
+<div class="section" id="module-es_fluent.filters">
+<span id="basic-filters"></span><h2>Basic Filters<a class="headerlink" href="#module-es_fluent.filters" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="es_fluent.filters.Age">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Age</code><span class="sig-paren">(</span><em>name</em>, <em>gte=None</em>, <em>lte=None</em>, <em>lt=None</em>, <em>gt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Age"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Age" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Dict" title="es_fluent.filters.Dict"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Dict</span></code></a></p>
+<p>Similar to a range filter. Operates on times. When querified, we convert
+the age in seconds into a datetime relative to the current
+<code class="docutils literal"><span class="pre">datetime.datetime.now()</span></code>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Age.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Age.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Age.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Age.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Age.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Age.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Age.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Age.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Age.name">
+<code class="descname">name</code><em class="property"> = 'age'</em><a class="headerlink" href="#es_fluent.filters.Age.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Age.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Age.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Age.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Age.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Age.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.And">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">And</code><a class="reference internal" href="_modules/es_fluent/filters.html#And"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.And" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Generic" title="es_fluent.filters.Generic"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Generic</span></code></a></p>
+<p>A multi-clause filter that ands&#8217;s all sub-filters added to it.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-and-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.And.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.And.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.And.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.And.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.And.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.And.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.And.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.And.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.And.name">
+<code class="descname">name</code><em class="property"> = 'and'</em><a class="headerlink" href="#es_fluent.filters.And.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.And.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.And.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.And.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#And.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.And.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Custom">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Custom</code><span class="sig-paren">(</span><em>query</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Custom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Custom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Allows for an entirely custom dictionary to be used and passed verbatim
+when <cite>to_query</cite> is invoked.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Custom.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Custom.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Custom.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Custom.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Custom.name">
+<code class="descname">name</code><em class="property"> = 'custom'</em><a class="headerlink" href="#es_fluent.filters.Custom.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Custom.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Custom.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Custom.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Dict">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Dict</code><a class="reference internal" href="_modules/es_fluent/filters.html#Dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Generic" title="es_fluent.filters.Generic"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Generic</span></code></a></p>
+<p>Contains a generic dictionary of filters e.g. in a top level ES Query
+we may have:</p>
+<div class="highlight-python"><div class="highlight"><pre>{ &quot;filtered&quot;: {&quot;filter&quot;: {&quot;and&quot;: {...}, &quot;or&quot;: {...}, &quot;exists&quot;: {...} }
+</pre></div>
+</div>
+<p>The Dict filter may represent the dictionary inside of &#8220;filtered.filter&#8221;.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Dict.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Dict.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Dict.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Dict.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Dict.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Dict.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Dict.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Dict.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Dict.name">
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#es_fluent.filters.Dict.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Dict.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Dict.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Dict.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Dict.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Dict.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates over all filters and converts them to an Elastic HTTP API
+suitable query.</p>
+<p>Note: each <a class="reference internal" href="#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a> is free to set it&#8217;s own
+filter dictionary. ESFluent does not attempt to guard against filters
+that may clobber one another.  If you wish to ensure that filters are
+isolated, nest them inside of a boolean filter such as
+<a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> or <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Exists">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Exists</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Checks whether a field exists in the source document.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-exists-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Exists.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Exists.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Exists.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Exists.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Exists.name">
+<code class="descname">name</code><em class="property"> = 'exists'</em><a class="headerlink" href="#es_fluent.filters.Exists.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Exists.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Exists.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Exists.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Filter">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Filter</code><a class="reference internal" href="_modules/es_fluent/filters.html#Filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>The base filter.</p>
+<dl class="attribute">
+<dt id="es_fluent.filters.Filter.name">
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#es_fluent.filters.Filter.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shorthand name of the filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Filter.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Filter.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Filter.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes this <code class="docutils literal"><span class="pre">Filter</span></code> and any descendants into a json-serializable
+dictionary suitable for use with the elasticsearch api.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.FilterRegistry">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">FilterRegistry</code><a class="reference internal" href="_modules/es_fluent/filters.html#FilterRegistry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.FilterRegistry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">type</span></code></p>
+<p>Metaclass used to automatically register new filter classes in our filter
+registry. Enables shorthand filter notation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;missing&#39;</span><span class="p">,</span> <span class="s">&#39;boop&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_query</span><span class="p">()[</span><span class="s">&#39;filter&#39;</span><span class="p">]</span>
+<span class="go">{&#39;missing&#39;: {&#39;field&#39;: &#39;field_name&#39;}}</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="es_fluent.filters.FilterRegistry.mro">
+<code class="descname">mro</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &rarr; list<a class="headerlink" href="#es_fluent.filters.FilterRegistry.mro" title="Permalink to this definition">¶</a></dt>
+<dd><p>return a type&#8217;s method resolution order</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Generic">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Generic</code><a class="reference internal" href="_modules/es_fluent/filters.html#Generic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Filter</span></code></a></p>
+<p>Contains a generic list of filters. Serialized as a dictionary.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Generic.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Generic.add_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Generic.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Generic.and_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Generic.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Generic.find_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Generic.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Generic.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Generic.name">
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#es_fluent.filters.Generic.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Generic.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Generic.or_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Generic.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Generic.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Generic.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes this <code class="docutils literal"><span class="pre">Filter</span></code> and any descendants into a json-serializable
+dictionary suitable for use with the elasticsearch api.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Missing">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Missing</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Missing"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Missing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Filters documents that to do not contain a given field.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Missing.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Missing.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Missing.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Missing.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Missing.name">
+<code class="descname">name</code><em class="property"> = 'missing'</em><a class="headerlink" href="#es_fluent.filters.Missing.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Missing.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Missing.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Missing.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Not">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Not</code><a class="reference internal" href="_modules/es_fluent/filters.html#Not"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Not" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Dict" title="es_fluent.filters.Dict"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Dict</span></code></a></p>
+<p>A filter that inverts it&#8217;s clauses.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-not-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Not.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Not.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Not.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Not.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Not.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Not.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Not.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Not.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Not.name">
+<code class="descname">name</code><em class="property"> = 'not'</em><a class="headerlink" href="#es_fluent.filters.Not.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Not.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Not.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Not.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Not.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Not.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Or">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Or</code><a class="reference internal" href="_modules/es_fluent/filters.html#Or"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Or" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Generic" title="es_fluent.filters.Generic"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Generic</span></code></a></p>
+<p>A multi-clause filter that <code class="docutils literal"><span class="pre">ors</span></code> all sub-filters added to it.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-or-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Or.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Or.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Or.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Or.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Or.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Or.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Or.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Or.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Or.name">
+<code class="descname">name</code><em class="property"> = 'or'</em><a class="headerlink" href="#es_fluent.filters.Or.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Or.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Or.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Or.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Or.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Or.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Range">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Range</code><span class="sig-paren">(</span><em>name</em>, <em>gte=None</em>, <em>lte=None</em>, <em>lt=None</em>, <em>gt=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Dict" title="es_fluent.filters.Dict"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Dict</span></code></a></p>
+<p>A Filter for ranges of values, supporting <code class="docutils literal"><span class="pre">lt</span></code>, <code class="docutils literal"><span class="pre">lte</span></code>, <code class="docutils literal"><span class="pre">gt</span></code>, <code class="docutils literal"><span class="pre">gte</span></code>
+comparisons.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-range-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Range.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Range.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Range.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Range.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Range.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Range.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Range.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Range.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Range.name">
+<code class="descname">name</code><em class="property"> = 'range'</em><a class="headerlink" href="#es_fluent.filters.Range.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Range.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Range.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Range.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Range.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Range.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.RegExp">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">RegExp</code><span class="sig-paren">(</span><em>name</em>, <em>expression</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#RegExp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.RegExp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Matches documents whose given field matches a provided regular expression.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.RegExp.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.RegExp.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.RegExp.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.RegExp.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.RegExp.name">
+<code class="descname">name</code><em class="property"> = 'regexp'</em><a class="headerlink" href="#es_fluent.filters.RegExp.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.RegExp.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#RegExp.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.RegExp.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Script">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Script</code><a class="reference internal" href="_modules/es_fluent/filters.html#Script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Generic" title="es_fluent.filters.Generic"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Generic</span></code></a></p>
+<p>Represents script criteria.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-script-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Script.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Script.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a filter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Script.and_filter">
+<code class="descname">and_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Script.and_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> clauses, automatically
+generating <a class="reference internal" href="#es_fluent.filters.And" title="es_fluent.filters.And"><code class="xref py py-class docutils literal"><span class="pre">And</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Script.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Script.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find or create a filter instance of the provided <code class="docutils literal"><span class="pre">filter_cls</span></code>. If it
+is found, use remaining arguments to augment the filter otherwise
+create a new instance of the desired type and add it to the
+current <a class="reference internal" href="es_fluent.builder.html#es_fluent.builder.QueryBuilder" title="es_fluent.builder.QueryBuilder"><code class="xref py py-class docutils literal"><span class="pre">QueryBuilder</span></code></a> accordingly.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Script.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Script.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal"><span class="pre">True</span></code> if this filter has nested clauses <code class="docutils literal"><span class="pre">False</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Script.name">
+<code class="descname">name</code><em class="property"> = 'script'</em><a class="headerlink" href="#es_fluent.filters.Script.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Script.or_filter">
+<code class="descname">or_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Script.or_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a list of <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> clauses, automatically
+generating the an <a class="reference internal" href="#es_fluent.filters.Or" title="es_fluent.filters.Or"><code class="xref py py-class docutils literal"><span class="pre">Or</span></code></a> filter if it does not
+exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Script.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Script.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Script.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.ScriptID">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">ScriptID</code><span class="sig-paren">(</span><em>name</em>, <em>script_id</em>, <em>script_params</em>, <em>lang='groovy'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#ScriptID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.ScriptID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Represents a pre-indexed script filter.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-script-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.ScriptID.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.ScriptID.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.ScriptID.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.ScriptID.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.ScriptID.name">
+<code class="descname">name</code><em class="property"> = 'script_id'</em><a class="headerlink" href="#es_fluent.filters.ScriptID.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.ScriptID.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#ScriptID.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.ScriptID.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Term">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Term</code><span class="sig-paren">(</span><em>name</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Term"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-term-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Term.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Term.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Term.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Term.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Term.name">
+<code class="descname">name</code><em class="property"> = 'term'</em><a class="headerlink" href="#es_fluent.filters.Term.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Term.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Term.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Term.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Terminal">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Terminal</code><a class="reference internal" href="_modules/es_fluent/filters.html#Terminal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Terminal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Filter</span></code></a></p>
+<p>A filter that cannot contain nested filters. Merge behavior is to clobber
+existing clauses rather than appending additional clauses.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Terminal.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Terminal.add_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Terminal.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Terminal.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Terminal.find_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Terminal.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Terminal.name">
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#es_fluent.filters.Terminal.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Terminal.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Terminal.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serializes this <code class="docutils literal"><span class="pre">Filter</span></code> and any descendants into a json-serializable
+dictionary suitable for use with the elasticsearch api.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.Terms">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">Terms</code><span class="sig-paren">(</span><em>name</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Matches documents that contain multiple exact values.</p>
+<p><a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-terms-filter.html">Elastic docs</a>.</p>
+<dl class="method">
+<dt id="es_fluent.filters.Terms.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Terms.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Terms.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.Terms.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.Terms.name">
+<code class="descname">name</code><em class="property"> = 'terms'</em><a class="headerlink" href="#es_fluent.filters.Terms.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.Terms.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#Terms.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.Terms.to_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="es_fluent.filters.build_filter">
+<code class="descclassname">es_fluent.filters.</code><code class="descname">build_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#build_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.build_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded filter construction. If <code class="docutils literal"><span class="pre">filter_or_string</span></code> is a string
+we look up it&#8217;s corresponding class in the filter registry and return it.
+Otherwise, assume <code class="docutils literal"><span class="pre">filter_or_string</span></code> is an instance of a filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="es_fluent.filters.register_filter">
+<code class="descclassname">es_fluent.filters.</code><code class="descname">register_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#register_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.register_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the <code class="docutils literal"><span class="pre">filter_cls</span></code> to our registry.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-es_fluent.filters.geometry">
+<span id="geometry-filters"></span><h2>Geometry Filters<a class="headerlink" href="#module-es_fluent.filters.geometry" title="Permalink to this headline">¶</a></h2>
+<p>Geometry related filters require additional dependencies.  Hence they&#8217;re broken
+out into their own module.</p>
+<dl class="class">
+<dt id="es_fluent.filters.geometry.GeoJSON">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.geometry.</code><code class="descname">GeoJSON</code><span class="sig-paren">(</span><em>name</em>, <em>geojson</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters/geometry.html#GeoJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.geometry.GeoJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Manages querying by GeoJSON. Automatically converts incoming GeoJSON
+to elasticsearch friendly geometry. This generally means:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#. CW orientation of polygons.</span>
+<span class="c">#. Re-casting of Features and FeatureCollections to Geometry and</span>
+</pre></div>
+</div>
+<blockquote>
+<div>GeometryCollections.</div></blockquote>
+<dl class="method">
+<dt id="es_fluent.filters.geometry.GeoJSON.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.geometry.GeoJSON.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.geometry.GeoJSON.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.geometry.GeoJSON.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.geometry.GeoJSON.name">
+<code class="descname">name</code><em class="property"> = 'geometry'</em><a class="headerlink" href="#es_fluent.filters.geometry.GeoJSON.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.geometry.GeoJSON.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters/geometry.html#GeoJSON.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.geometry.GeoJSON.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a json-serializable representation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="es_fluent.filters.geometry.IndexedShape">
+<em class="property">class </em><code class="descclassname">es_fluent.filters.geometry.</code><code class="descname">IndexedShape</code><span class="sig-paren">(</span><em>name</em>, <em>shape_id</em>, <em>index_name</em>, <em>doc_type</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters/geometry.html#IndexedShape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.geometry.IndexedShape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">es_fluent.filters.Terminal</span></code></a></p>
+<p>Searches by a previously indexed Geometry.</p>
+<dl class="method">
+<dt id="es_fluent.filters.geometry.IndexedShape.add_filter">
+<code class="descname">add_filter</code><span class="sig-paren">(</span><em>filter_instance</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.geometry.IndexedShape.add_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.geometry.IndexedShape.find_filter">
+<code class="descname">find_filter</code><span class="sig-paren">(</span><em>filter_cls</em><span class="sig-paren">)</span><a class="headerlink" href="#es_fluent.filters.geometry.IndexedShape.find_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>As a <a class="reference internal" href="#es_fluent.filters.Terminal" title="es_fluent.filters.Terminal"><code class="xref py py-class docutils literal"><span class="pre">Terminal</span></code></a> filter, adding nested filters
+is not allowed and therefore, finding sub-filters is not supported.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="es_fluent.filters.geometry.IndexedShape.name">
+<code class="descname">name</code><em class="property"> = 'indexed_geometry'</em><a class="headerlink" href="#es_fluent.filters.geometry.IndexedShape.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="es_fluent.filters.geometry.IndexedShape.to_query">
+<code class="descname">to_query</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters/geometry.html#IndexedShape.to_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.geometry.IndexedShape.to_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a json-serializable representation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="es_fluent.filters.geometry.prepare_geojson">
+<code class="descclassname">es_fluent.filters.geometry.</code><code class="descname">prepare_geojson</code><span class="sig-paren">(</span><em>geojson</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters/geometry.html#prepare_geojson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#es_fluent.filters.geometry.prepare_geojson" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modifies incoming GeoJSON to make it Elastic friendly. This means:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>CW orientation of polygons.</li>
+<li>Re-casting of Features and FeatureCollections to Geometry and
+GeometryCollections.</li>
+</ol>
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="utilities">
+<h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">es_fluent.filters.</code><code class="descname">FilterRegistry</code><a class="reference internal" href="_modules/es_fluent/filters.html#FilterRegistry"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Metaclass used to automatically register new filter classes in our filter
+registry. Enables shorthand filter notation.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query_builder</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;missing&#39;</span><span class="p">,</span> <span class="s">&#39;boop&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_query</span><span class="p">()[</span><span class="s">&#39;filter&#39;</span><span class="p">]</span>
+<span class="go">{&#39;missing&#39;: {&#39;field&#39;: &#39;field_name&#39;}}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<code class="descclassname">es_fluent.filters.</code><code class="descname">build_filter</code><span class="sig-paren">(</span><em>filter_or_string</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/es_fluent/filters.html#build_filter"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Overloaded filter construction. If <code class="docutils literal"><span class="pre">filter_or_string</span></code> is a string
+we look up it&#8217;s corresponding class in the filter registry and return it.
+Otherwise, assume <code class="docutils literal"><span class="pre">filter_or_string</span></code> is an instance of a filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#es_fluent.filters.Filter" title="es_fluent.filters.Filter"><code class="xref py py-class docutils literal"><span class="pre">Filter</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="es_fluent.script_fields.html" class="btn btn-neutral float-right" title="Script Fields" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="es_fluent.fields.html" class="btn btn-neutral" title="Fields" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Jacob Straszynski.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
