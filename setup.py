@@ -22,8 +22,8 @@ test_requirements = [
 ]
 
 setup(
-    name='es_fluent',
-    version='0.0.1',
+    name='es-fluent',
+    version='0.0.2',
     description="Fluent API for generating elastic queries.",
     long_description=readme + '\n\n' + history,
     author="Jacob Straszynski",
@@ -40,7 +40,7 @@ setup(
     zip_safe=False,
     keywords='es_fluent',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         "Programming Language :: Python :: 2",
