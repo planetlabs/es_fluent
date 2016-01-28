@@ -125,7 +125,7 @@ And also equivalent to:
 
   from es_fluent.builder import QueryBuilder
   query = QueryBuilder()
-  query.add_filter('~term', 'field_name', 'field_value'))
+  query.add_filter('~term', 'field_name', 'field_value')
 
 Boolean Filters
 ~~~~~~~~~~~~~~~
@@ -137,15 +137,15 @@ for creating nested and / or clauses:
 
   from es_fluent.builder import QueryBuilder
   query = QueryBuilder()
-  query.or_filter('term', 'field_name', 'field_value'))
-  query.or_filter('term', 'another_field', 'another_value'))
+  query.or_filter('term', 'field_name', 'field_value')
+  query.or_filter('term', 'another_field', 'another_value')
 
 .. code-block:: python
 
   from es_fluent.builder import QueryBuilder
   query = QueryBuilder()
-  query.and_filter('term', 'field_name', 'field_value'))
-  query.and_filter('term', 'another_field', 'another_value'))
+  query.and_filter('term', 'field_name', 'field_value')
+  query.and_filter('term', 'another_field', 'another_value')
 
 Note that with elasticsearch, you cannot have both an `And` and `Or` clause at
 the root level:
@@ -154,8 +154,8 @@ the root level:
 
   from es_fluent.builder import QueryBuilder
   query = QueryBuilder()
-  query.or_filter('term', 'or_clause_field', 'or_clause_value'))
-  query.and_filter('term', 'and_clause_field', 'and_clause_value'))
+  query.or_filter('term', 'or_clause_field', 'or_clause_value')
+  query.and_filter('term', 'and_clause_field', 'and_clause_value')
 
 But this can be achieved using:
 
@@ -165,7 +165,7 @@ But this can be achieved using:
   query = QueryBuilder()
 
   and_clauses = And()
-  and_clauses.or_filter('term', 'or_clause_field', 'or_clause_value'))
-  and_clauses.and_filter('term', 'and_clause_field', 'and_clause_value'))
+  and_clauses.or_filter('term', 'or_clause_field', 'or_clause_value')
+  and_clauses.and_filter('term', 'and_clause_field', 'and_clause_value')
 
   query.add_filter(and_clauses)
