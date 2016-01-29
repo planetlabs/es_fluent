@@ -241,7 +241,7 @@ elasticsearch:</p>
 <p>And also equivalent to:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
-<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;~term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="s">&#39;~term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -251,22 +251,22 @@ elasticsearch:</p>
 for creating nested and / or clauses:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
-<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
-<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">)</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
-<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">))</span>
-<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;field_name&#39;</span><span class="p">,</span> <span class="s">&#39;field_value&#39;</span><span class="p">)</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;another_field&#39;</span><span class="p">,</span> <span class="s">&#39;another_value&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Note that with elasticsearch, you cannot have both an <cite>And</cite> and <cite>Or</cite> clause at
 the root level:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">es_fluent.builder</span> <span class="kn">import</span> <span class="n">QueryBuilder</span>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
-<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">))</span>
-<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">))</span>
+<span class="n">query</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">)</span>
+<span class="n">query</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>But this can be achieved using:</p>
@@ -274,8 +274,8 @@ the root level:</p>
 <span class="n">query</span> <span class="o">=</span> <span class="n">QueryBuilder</span><span class="p">()</span>
 
 <span class="n">and_clauses</span> <span class="o">=</span> <span class="n">And</span><span class="p">()</span>
-<span class="n">and_clauses</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">))</span>
-<span class="n">and_clauses</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">))</span>
+<span class="n">and_clauses</span><span class="o">.</span><span class="n">or_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;or_clause_value&#39;</span><span class="p">)</span>
+<span class="n">and_clauses</span><span class="o">.</span><span class="n">and_filter</span><span class="p">(</span><span class="s">&#39;term&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_field&#39;</span><span class="p">,</span> <span class="s">&#39;and_clause_value&#39;</span><span class="p">)</span>
 
 <span class="n">query</span><span class="o">.</span><span class="n">add_filter</span><span class="p">(</span><span class="n">and_clauses</span><span class="p">)</span>
 </pre></div>
