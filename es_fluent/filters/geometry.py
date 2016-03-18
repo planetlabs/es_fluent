@@ -3,7 +3,7 @@ Geometry related filters require additional dependencies.  Hence they're broken
 out into their own module.
 """
 from copy import deepcopy
-from . import Terminal
+from .core import Terminal
 
 
 def prepare_geojson(geojson):

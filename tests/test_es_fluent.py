@@ -421,7 +421,7 @@ class TestEs_fluent(unittest.TestCase):
         query_builder.sort_reset()
         self.assertFalse('sort' in query_builder.to_query())
 
-    @patch('es_fluent.filters._now')
+    @patch('es_fluent.filters.core._now')
     def test_age_filter(self, mock_now):
         mock_now.return_value = datetime.datetime(2015, 1, 1, 2, 0, 0)
         age = Age('some_field', lte=3600, gte=1800, gt=1860, lt=1920)

@@ -1,10 +1,10 @@
 ESFluent API
 ============
 
-The key components of the API are :class:`~es_fluent.filters.Filter`
+The key components of the API are :class:`~es_fluent.filters.core.Filter`
 and :class:`~es_fluent.builder.QueryBuilder`.
 
-Each ``Filter`` inherirts from :class:`~es_fluent.filters.Filter` and
+Each ``Filter`` inherirts from :class:`~es_fluent.filters.core.Filter` and
 generally provides a ``to_query`` method that prepares it for
 json-serialization.
 

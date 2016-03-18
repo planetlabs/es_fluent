@@ -37,7 +37,7 @@ class QueryBuilder(object):
     def and_filter(self, filter_or_string, *args, **kwargs):
         """
         Convenience method to delegate to the root_filter to generate an
-        :class:`~es_fluent.filters.And` clause.
+        :class:`~es_fluent.filters.core.And` clause.
 
         :return: :class:`~es_fluent.builder.QueryBuilder`
         """
@@ -91,7 +91,7 @@ class QueryBuilder(object):
 
         This method is useful in cases where one wants to modify and extend
         and existing clause, a common example might be an
-        :class:`~es_fluent.filters.And` filter. The method only looks in the
+        :class:`~es_fluent.filters.core.And` filter. The method only looks in the
         query's top-level filter and does not recurse.
 
         :param: ``filter_cls``

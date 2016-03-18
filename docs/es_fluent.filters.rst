@@ -12,7 +12,7 @@ also generate novel queries.
 Basic Filters
 -------------
 
-.. automodule:: es_fluent.filters
+.. automodule:: es_fluent.filters.core
     :members:
     :undoc-members:
     :inherited-members:
@@ -31,5 +31,5 @@ Utilities
 ---------
 
 .. autoclass:: es_fluent.filters.FilterRegistry
+.. autoclass:: es_fluent.filters.Filter
 .. autofunction:: es_fluent.filters.build_filter
-
