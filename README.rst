@@ -45,7 +45,7 @@ The QueryBuilder
 ~~~~~~~~~~~~~~~~
 
 The QueryBuilder encapsulates the entire query. It features
-a :func:`~es_fluent.filters.Filter.to_query` method which generates a JSON
+a :func:`~es_fluent.filters.core.Filter.to_query` method which generates a JSON
 payload suitable for POST'ing to elasticsearch.
 
 For the most part, you'll be adding chains of filters. The QueryBuilder offers
