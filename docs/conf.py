@@ -43,6 +43,7 @@ import es_fluent
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.doctest',
 ]
 

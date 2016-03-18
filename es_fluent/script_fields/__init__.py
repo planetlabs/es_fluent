@@ -49,10 +49,10 @@ class ScriptField(BaseScriptField):
     """
     def __init__(self, name, script, lang='groovy', **kwargs):
         """
-        :param name: The resulting name of the field.
-        :param script: The script for the script field.
-        :param lang: The language of the script.
-        :param kwargs: Additional keyword arguments become the params for
+        :param string name: The resulting name of the field.
+        :param dict script: The script for the script field.
+        :param string lang: The language of the script.
+        :param dict kwargs: Additional keyword arguments become the params for
             the script.
         """
         self.name = name
@@ -79,10 +79,11 @@ class ScriptIDField(BaseScriptField):
     """
     def __init__(self, name, script_id, lang='groovy', **kwargs):
         """
-        :param name: The resulting name of the field.
-        :param script_id: The id of the pre-indexed script field.
-        :param lang: The language of the script.
-        :param kwargs: Additional keyword arguments become args for the script.
+        :param string name: The resulting name of the field.
+        :param string script_id: The id of the pre-indexed script field.
+        :param string lang: The language of the script.
+        :param dict kwargs:
+            Additional keyword arguments become args for the script.
         """
         self.name = name
         self.script_id = script_id

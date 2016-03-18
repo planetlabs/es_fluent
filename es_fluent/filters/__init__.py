@@ -328,6 +328,10 @@ class Age(Dict):
     name = 'age'
 
     def __init__(self, name, gte=None, lte=None, lt=None, gt=None):
+        """
+        :param string name:
+            The datetime indexed field we'll be making age comparisons against.
+        """
         self.name = name
         # Yes, this flipping of gt/lt is deliberate. Saying something is
         # less than 3600 seconds old is equivalent to saying it's timestamp
@@ -360,6 +364,14 @@ class Term(Terminal):
     name = 'term'
 
     def __init__(self, name, value):
+        """
+        :param string name:
+            The name of the field that will be checked for the provided
+            ``value``.
+        :param string value:
+            The value that we expect to find in the provided field name
+            ``name``.
+        """
         self.name = name
         self.value = value
 
@@ -380,6 +392,11 @@ class Missing(Terminal):
     name = 'missing'
 
     def __init__(self, name):
+        """
+        :param string name:
+            The name of the field whose presence in the document will be
+            checked.
+        """
         self.name = name
 
     def to_query(self):
@@ -399,6 +416,11 @@ class Terms(Terminal):
     name = 'terms'
 
     def __init__(self, name, values):
+        """
+        :param string name: The name of the field to filter for ``values``.
+        :param list values:
+            A list of values to filter on.
+        """
         self.name = name
         self.values = values
 
@@ -419,6 +441,10 @@ class RegExp(Terminal):
     name = 'regexp'
 
     def __init__(self, name, expression):
+        """
+        :param string name: The name of the field to filter on.
+        :param string expression: The regular expression to filter with.
+        """
         # Immediately try to compile the expression to check it's validity.
         re.compile(expression)
         self.name = name
@@ -459,6 +485,15 @@ class ScriptID(Terminal):
     name = 'script_id'
 
     def __init__(self, name, script_id, script_params, lang='groovy'):
+        """
+        :param string name: The name of the script's generated field.
+        :param string script_id:
+            The identifier within your cluster's indexed scripts.
+        :param dict script_params:
+            Additional script parameters to pass to the script.
+        :param string lang:
+            The script language. Defaults to ``groovy``.
+        """
         self.name = name
         self.script_id = script_id
         self.script_params = script_params
