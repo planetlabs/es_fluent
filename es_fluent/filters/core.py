@@ -22,7 +22,7 @@ class Generic(Filter):
         """
         :return: ``True`` if this filter has nested clauses ``False``.
         """
-        return len(self.filters) == 0
+        return all(_filter.is_empty() for _filter in self.filters)
 
     def add_filter(self, filter_or_string, *args, **kwargs):
         """
@@ -109,6 +109,13 @@ class Dict(Generic):
 
         return query
 
+    def is_empty(self):
+        """
+        :return:
+            ``True`` if this filter has nested clauses, otherwise ``False``.
+        """
+        return len(self.filters) == 0
+
 
 class And(Generic):
     """
@@ -178,6 +185,13 @@ class Terminal(Filter):
         """
         raise RuntimeError("Terminal filters do not support sub-filters")
 
+    def is_empty(self):
+        """
+        :return:
+            ``False`` as Terminal filters are never empty.
+        """
+        return False
+
 
 class Custom(Terminal):
     """
@@ -212,7 +226,7 @@ class Exists(Terminal):
         }
 
 
-class Range(Dict):
+class Range(Terminal):
     """
     A Filter for ranges of values, supporting ``lt``, ``lte``, ``gt``, ``gte``
     comparisons.
@@ -241,7 +255,7 @@ class Range(Dict):
         }
 
 
-class Age(Dict):
+class Age(Terminal):
     """
     Similar to a range filter. Operates on times. When querified, we convert
     the age in seconds into a datetime relative to the current

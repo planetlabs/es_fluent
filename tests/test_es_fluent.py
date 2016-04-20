@@ -14,7 +14,7 @@ from mock import patch
 
 from es_fluent.builder import QueryBuilder
 from es_fluent.filters import Exists, Or, And, Range, Term, Terms, ScriptID, \
-    Age, Missing
+    Age, Missing, Not
 from es_fluent.script_fields import ScriptField, ScriptIDField
 
 
@@ -450,6 +450,30 @@ class TestEs_fluent(unittest.TestCase):
         query_builder.size = 50
         self.assertIn('size', query_builder.to_query())
         self.assertEqual(query_builder.to_query()['size'], 50)
+
+    def test_is_empty(self):
+        # And filter with no nested clauses is empty.
+        and_filter = And()
+        self.assertTrue(and_filter.is_empty())
+
+        # Not filter with no nested clauses is empty.
+        not_filter = Not()
+        self.assertTrue(not_filter.is_empty())
+
+        # An age filter is never empty.
+        age_filter = Age('woot')
+        self.assertFalse(age_filter.is_empty())
+
+        # We're adding the not filter to the and_filter. The not_filter is
+        # empty, therefore so is the and_filter.
+        and_filter.add_filter(not_filter)
+        self.assertTrue(and_filter.is_empty())
+
+        # Now we add an age_filter to the not filter, and the whole onion of
+        # nested filters starts evaluating as "not empty."
+        not_filter.add_filter(age_filter)
+        self.assertFalse(not_filter.is_empty())
+        self.assertFalse(and_filter.is_empty())
 
 
 if __name__ == '__main__':
