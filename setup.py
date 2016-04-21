@@ -23,7 +23,7 @@ test_requirements = [
 
 setup(
     name='es-fluent',
-    version='0.0.3',
+    version='0.0.4',
     description="Fluent API for generating elastic queries.",
     long_description=readme + '\n\n' + history,
     author="Jacob Straszynski",
