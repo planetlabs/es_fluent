@@ -475,6 +475,17 @@ class TestEs_fluent(unittest.TestCase):
         self.assertFalse(not_filter.is_empty())
         self.assertFalse(and_filter.is_empty())
 
+    def test_empty_serialization(self):
+        query_builder = QueryBuilder()
+
+        # And filter with no nested clauses is empty.
+        and_filter = And()
+        query_builder.add_filter(and_filter)
+        self.assertEqual(
+            {},
+            query_builder.to_query()['filter']
+        )
+
 
 if __name__ == '__main__':
     import sys
