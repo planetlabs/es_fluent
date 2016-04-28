@@ -104,6 +104,8 @@ class Dict(Generic):
        """
         query = {}
         for filter_instance in self.filters:
+            if filter_instance.is_empty():
+                continue
             filter_query = filter_instance.to_query()
             query.update(filter_query)
 
@@ -128,6 +130,8 @@ class And(Generic):
     def to_query(self):
         clauses = []
         for filter_instance in self.filters:
+            if filter_instance.is_empty():
+                continue
             clauses.append(filter_instance.to_query())
         return {
             "and": clauses
@@ -145,6 +149,8 @@ class Or(Generic):
     def to_query(self):
         clauses = []
         for filter_instance in self.filters:
+            if filter_instance.is_empty():
+                continue
             clauses.append(filter_instance.to_query())
         return {
             "or": clauses
