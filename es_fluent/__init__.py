@@ -2,4 +2,4 @@
 
 __author__ = 'Jacob Straszynski'
 __email__ = 'jacob.straszynski@planet.com'
-__version__ = '0.0.4'
+__version__ = '0.0.5'
