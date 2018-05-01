@@ -20,7 +20,7 @@ class Fields(object):
         elif isinstance(field_instance_or_string, Field):
             field_instance_or_string = field_instance
         else:
-            raise ValueError('Expected a basetring or Field instance')
+            raise ValueError('Expected a basestring or Field instance')
 
         self.fields.append(field_instance)
 

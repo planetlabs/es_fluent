@@ -67,6 +67,23 @@ class Generic(Filter):
 
         return or_filter
 
+    def not_filter(self, filter_or_string, *args, **kwargs):
+        """
+        Adds a list of :class:`~es_fluent.filters.core.Not` clauses, automatically
+        generating :class:`~es_fluent.filters.core.Not` filter if it does not
+        exist.
+        """
+        not_filter = self.find_filter(Not)
+
+        if not_filter is None:
+            not_filter = Not()
+            self.filters.append(not_filter)
+
+        not_filter.add_filter(build_filter(
+            filter_or_string, *args, **kwargs))
+
+        return not_filter
+
     def find_filter(self, filter_cls):
         """
         Find or create a filter instance of the provided ``filter_cls``. If it
@@ -134,7 +151,7 @@ class And(Generic):
                 continue
             clauses.append(filter_instance.to_query())
         return {
-            "and": clauses
+            "filter": clauses
         }
 
 
@@ -153,7 +170,7 @@ class Or(Generic):
                 continue
             clauses.append(filter_instance.to_query())
         return {
-            "or": clauses
+            "should": clauses
         }
 
 
@@ -166,11 +183,14 @@ class Not(Dict):
     name = 'not'
 
     def to_query(self):
-        query = super(Not, self).to_query()
+        clauses = []
+        for filter_instance in self.filters:
+            if filter_instance.is_empty():
+                continue
+            clauses.append(filter_instance.to_query())
         return {
-            "not": query
+            "must_not": clauses
         }
-
 
 class Terminal(Filter):
     """

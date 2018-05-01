@@ -23,7 +23,7 @@ A user-friendly module for managing and composing elasticsearch queries.
 Supported Servers
 -----------------
 
-ESFluent only supports the 1.x stream of elasticsearch.
+This version of ESFluent only supports elasticsearch 6.x.
 
 Features
 --------
@@ -70,7 +70,7 @@ Filter Basics
 
 Having created a QueryBuilder instance, you're likely going to want
 to add filter criteria. There are two ways of doing this: importing the filter
-class directly and creating an instance of a filter by hand then agumenting
+class directly and creating an instance of a filter by hand then augmenting
 your QueryBuilder instance:
 
 .. code-block:: python
@@ -79,7 +79,7 @@ your QueryBuilder instance:
   from es_fluent.filters import Term
 
   query = QueryBuilder()
-  query.add_filter(Term('field_name', 'field_value'))
+  query.and_filter(Term('field_name', 'field_value'))
 
 The alternative approach is to use a shorthand notation:
 
@@ -89,18 +89,14 @@ The alternative approach is to use a shorthand notation:
 
   query = QueryBuilder()
   # Args and kwargs are forwarded to appropriate constructors.
-  query.add_filter('range', 'field_name', lte=0.5)
+  query.and_filter('range', 'field_name', lte=0.5)
 
 
 Each Filter class has a registered name - see the `name` class attribute - that
 is used as it's shorthand identifier.
 
-Negation
+Not filter
 ~~~~~~~~
-
-Taking a page out of various Python ORMs, we support the `~` operator to
-negate filters. This effectively wraps the filter in a `not` filter in
-elasticsearch:
 
 .. code-block:: python
 
@@ -108,24 +104,16 @@ elasticsearch:
   from es_fluent.filters import Term
 
   query = QueryBuilder()
-  query.add_filter(~Term('field_name', 'field_value'))
+  query.not_filter(Term('field_name', 'field_value'))
+
 
 This is equivalent to:
 
 .. code-block:: python
 
   from es_fluent.builder import QueryBuilder
-  from es_fluent.filters import Not, Term
   query = QueryBuilder()
-  query.add_filter(Not(Term('field_name', 'field_value')))
-
-And also equivalent to:
-
-.. code-block:: python
-
-  from es_fluent.builder import QueryBuilder
-  query = QueryBuilder()
-  query.add_filter('~term', 'field_name', 'field_value')
+  query.not_filter('term', 'field_name', 'field_value')
 
 Boolean Filters
 ~~~~~~~~~~~~~~~
@@ -140,32 +128,3 @@ for creating nested and / or clauses:
   query.or_filter('term', 'field_name', 'field_value')
   query.or_filter('term', 'another_field', 'another_value')
 
-.. code-block:: python
-
-  from es_fluent.builder import QueryBuilder
-  query = QueryBuilder()
-  query.and_filter('term', 'field_name', 'field_value')
-  query.and_filter('term', 'another_field', 'another_value')
-
-Note that with elasticsearch, you cannot have both an `And` and `Or` clause at
-the root level:
-
-.. code-block:: python
-
-  from es_fluent.builder import QueryBuilder
-  query = QueryBuilder()
-  query.or_filter('term', 'or_clause_field', 'or_clause_value')
-  query.and_filter('term', 'and_clause_field', 'and_clause_value')
-
-But this can be achieved using:
-
-.. code-block:: python
-
-  from es_fluent.builder import QueryBuilder
-  query = QueryBuilder()
-
-  and_clauses = And()
-  and_clauses.or_filter('term', 'or_clause_field', 'or_clause_value')
-  and_clauses.and_filter('term', 'and_clause_field', 'and_clause_value')
-
-  query.add_filter(and_clauses)

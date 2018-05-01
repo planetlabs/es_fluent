@@ -54,13 +54,14 @@ class QueryBuilder(object):
         self.root_filter.or_filter(filter_or_string, *args, **kwargs)
         return self
 
-    def add_filter(self, filter_or_string, *args, **kwargs):
+    def not_filter(self, filter_or_string, *args, **kwargs):
         """
-        Adds a filter to the query builder's filters.
+        Convenience method to delegate to the root_filter to generate an `not`
+        clause.
 
         :return: :class:`~es_fluent.builder.QueryBuilder`
         """
-        self.root_filter.add_filter(filter_or_string, *args, **kwargs)
+        self.root_filter.not_filter(filter_or_string, *args, **kwargs)
         return self
 
     def add_field(self, field_instance):
@@ -104,22 +105,22 @@ class QueryBuilder(object):
         result = {}
 
         if not self.root_filter.is_empty():
-            result['filter'] = self.root_filter.to_query()
+            result['query'] = {'bool': self.root_filter.to_query()}
 
         if not self.script_fields.is_empty():
             result['script_fields'] = self.script_fields.to_query()
 
-        if not self.fields.to_query():
-            result['fields'] = self.fields.to_query()
+        if self.fields.to_query():
+            result['_source'] = self.fields.to_query()
+        else:
+            result['_source'] = self.source
 
-        # We don't bother with reprensenting sort as an object.
+        # We don't bother with representing sort as an object.
         if len(self.sorts):
             result['sort'] = self.sorts
 
         if self._size is not None:
             result['size'] = self._size
-
-        result['_source'] = self.source
 
         return result
 
