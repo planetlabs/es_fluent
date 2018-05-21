@@ -34,6 +34,15 @@ class QueryBuilder(object):
         """
         self._size = size
 
+    def add_filter(self, filter_or_string, *args, **kwargs):
+        """
+        Convenience method to append to root_filter
+
+        :return: :class:`~es_fluent.builder.QueryBuilder`
+        """
+        self.root_filter.add_filter(filter_or_string, *args, **kwargs)
+        return self
+
     def and_filter(self, filter_or_string, *args, **kwargs):
         """
         Convenience method to delegate to the root_filter to generate an
