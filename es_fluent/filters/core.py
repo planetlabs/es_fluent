@@ -145,13 +145,13 @@ class Bool(Generic):
     name = 'bool'
 
     def to_query(self):
-        clauses = []
+        clauses = {}
         for filter_instance in self.filters:
             if filter_instance.is_empty():
                 continue
-            clauses.append(filter_instance.to_query())
+            clauses.update(filter_instance.to_query())
         return {
-            "bool": clauses
+            "bool": build_filter(clauses)
         }
 
 
