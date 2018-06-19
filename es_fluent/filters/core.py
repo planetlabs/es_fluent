@@ -136,6 +136,25 @@ class Dict(Generic):
         return len(self.filters) == 0
 
 
+class Bool(Generic):
+    """
+    A multi-clause filter that bool's all sub-filters added to it.
+
+    `Elastic docs <https://www.elastic.co/guide/en/elasticsearch/reference/1.7/query-dsl-and-filter.html>`_.
+    """
+    name = 'bool'
+
+    def to_query(self):
+        clauses = []
+        for filter_instance in self.filters:
+            if filter_instance.is_empty():
+                continue
+            clauses.append(filter_instance.to_query())
+        return {
+            "bool": clauses
+        }
+
+
 class And(Generic):
     """
     A multi-clause filter that ands's all sub-filters added to it.

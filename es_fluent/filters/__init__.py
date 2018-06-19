@@ -84,6 +84,7 @@ class Filter(object):
 from .core import (
     Age,
     And,
+    Bool,
     Custom,
     Dict,
     Exists,
