@@ -114,7 +114,7 @@ class QueryBuilder(object):
         result = {}
 
         if not self.root_filter.is_empty():
-            result['query'] = {'bool': self.root_filter.to_query()}
+            result['query'] = self.root_filter.to_query()
 
         if not self.script_fields.is_empty():
             result['script_fields'] = self.script_fields.to_query()
