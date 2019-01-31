@@ -149,7 +149,11 @@ class Bool(Generic):
         for filter_instance in self.filters:
             if filter_instance.is_empty():
                 continue
-            clauses.update(filter_instance.to_query())
+            filter_query = filter_instance.to_query()
+            for filter_type, filter_value in filter_query.iteritems():
+                if filter_type not in clauses:
+                    clauses[filter_type] = []
+                clauses[filter_type].extend(filter_value)
         return {
             "bool": build_filter(clauses)
         }
